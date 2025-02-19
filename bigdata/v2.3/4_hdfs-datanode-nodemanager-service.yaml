@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: datanode-nodemanager
+  namespace: bigdata     
+spec:
+  clusterIP: None
+  selector:
+    app: hdfs-datanode-nodemanager
+  ports:
+  - protocol: TCP
+    port: 9866
+    targetPort: 9866
+    name: rpc-port
+  - protocol: TCP
+    port: 9867
+    targetPort: 9867
+    name: ipc-port    
+  - protocol: TCP
+    port: 9864
+    targetPort: 9864
+    name: http-port        
+  - protocol: TCP
+    port: 8038
+    targetPort: 8038
+    name: rpc1-port
+  - protocol: TCP
+    port: 8042
+    targetPort: 8042
+    name: http1-port
+  - protocol: TCP
+    port: 8040
+    targetPort: 8040
+    name: localizer-port
+  - protocol: TCP
+    port: 8048
+    targetPort: 8048
+    name: collector-port        

@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: citus-master
+  namespace: citus
+  labels:
+    app: citus-master
+spec:
+  selector:
+    app: citus-master
+  clusterIP: None
+  ports:
+  - port: 5432
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: citus-master
+  namespace: citus
+spec:
+  serviceName: citus-master
+  replicas: 1
+  selector:
+    matchLabels:
+      app: citus-master
+  template:
+    metadata:
+      labels:
+        app: citus-master
+    spec:
+      serviceAccountName: citus-user # Thêm trường này
+      containers:
+      - name: citus
+        image: citusdata/citus:postgres_16
+        ports:
+        - containerPort: 5432
+        env:
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: citus-secrets
+              key: password
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: citus-secrets
+              key: password
+        volumeMounts:
+        - name: storage
+          mountPath: /var/lib/postgresql/data
+        livenessProbe:
+          exec:
+            command:
+            - ./pg_healthcheck
+          initialDelaySeconds: 60
+  volumeClaimTemplates:
+  - metadata:
+      name: storage
+    spec:
+      storageClassName: standard
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 50Gi

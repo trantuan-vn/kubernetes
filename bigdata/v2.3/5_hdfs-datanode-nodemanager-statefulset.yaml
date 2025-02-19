@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: datanode-nodemanager
+  namespace: bigdata 
+spec:
+  serviceName: datanode-nodemanager
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hdfs-datanode-nodemanager
+  template:
+    metadata:
+      labels: 
+        app: hdfs-datanode-nodemanager
+    spec:
+      initContainers:
+      - name: "chown"
+        image: apache/hadoop:3
+        command:
+          - /bin/bash
+          - -c
+          - chown -R hadoop:hadoop /data/hadoop &&
+            chmod g+s /data/hadoop
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: hadoop-data
+          mountPath: /data/hadoop
+      containers:
+      - name: datanode
+        image: apache/hadoop:3
+        ports:
+        - containerPort: 9864 # dfs.datanode.http.address
+          name: http-port
+        - containerPort: 9866 # dfs.datanode.address
+          name: rpc-port  
+        - containerPort: 9867 # dfs.datanode.ipc.address
+          name: ipc-port                  
+        command:
+          - "/bin/bash"
+          - "/tmp/hadoop-config/bootstrap.sh"
+          - "-d"
+          - "datanode"
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+          allowPrivilegeEscalation: true
+          privileged: true          
+        volumeMounts:
+        - name: hadoop-data
+          mountPath: /data/hadoop
+        - name: hadoop-config-volume
+          mountPath: /tmp/hadoop-config
+      - name: nodemanager
+        image: apache/hadoop:3
+        ports:
+        - containerPort: 8038 # yarn.nodemanager.webapp.address
+          name: rpc-port
+        - containerPort: 8042 # yarn.nodemanager.webapp.address
+          name: http-port
+        - containerPort: 8040 # yarn.nodemanager.localizer.address
+          name: localizer-port
+        - containerPort: 8048 # yarn.nodemanager.collector-service.address
+          name: collector-port
+        command:
+        - "/bin/bash"
+        - "/tmp/hadoop-config/bootstrap.sh"
+        - "-d"
+        - "nodemanager"  
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+          allowPrivilegeEscalation: true
+          privileged: true     
+        resources:
+          requests:
+            memory: "2Gi"               
+        volumeMounts:
+        - name: hadoop-data
+          mountPath: /data/hadoop
+        - name: hadoop-config-volume
+          mountPath: /tmp/hadoop-config    
+      volumes:
+      - name: hadoop-data
+        persistentVolumeClaim:
+          claimName: hadoop-data      
+      - name: hadoop-config-volume
+        configMap:
+          name: hadoop-config   
+  volumeClaimTemplates:
+  - metadata:
+      name: hadoop-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 50Gi
+      storageClassName: standard

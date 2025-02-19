@@ -1,0 +1,2137 @@
+2025-02-10 20:57:19 Processing Excel file version: v1
+2025-02-10 20:57:19 Processing sheet: exchange
+2025-02-10 20:57:19 Executed: delete from system_parameters.business_table_uniques
+2025-02-10 20:57:19 Rows affected: 56
+2025-02-10 20:57:19 Executed: delete from system_parameters.business_fields
+2025-02-10 20:57:19 Rows affected: 419
+2025-02-10 20:57:19 Executed: delete from system_parameters.business_tables
+2025-02-10 20:57:19 Rows affected: 39
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('exchange', 'exchange', 'exchange')
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'exchange_id','SERIAL', 'exchange_id', true FROM system_parameters.business_tables WHERE table_name='exchange' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'name','VARCHAR(255)', 'Tên sàn giao dịch' FROM system_parameters.business_tables WHERE table_name='exchange' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'code','VARCHAR(50)', 'Mã sàn giao dịch' FROM system_parameters.business_tables WHERE table_name='exchange' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='exchange' 
+and b.table_id=a.table_id and b.field_name='code';
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Processing sheet: country
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('country', 'country', 'country')
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'country_id','SERIAL', 'country_id', true FROM system_parameters.business_tables WHERE table_name='country' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'name','VARCHAR(255)', 'Tên quốc gia' FROM system_parameters.business_tables WHERE table_name='country' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'code','VARCHAR(50)', 'Mã quốc gia' FROM system_parameters.business_tables WHERE table_name='country' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='country' 
+and b.table_id=a.table_id and b.field_name='code';
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Processing sheet: sector
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('sector', 'sector', 'sector')
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'sector_id','SERIAL', 'sector_id', true FROM system_parameters.business_tables WHERE table_name='sector' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'name','VARCHAR(255)', 'Tên nghành' FROM system_parameters.business_tables WHERE table_name='sector' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'code','VARCHAR(50)', 'Mã nghành' FROM system_parameters.business_tables WHERE table_name='sector' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='sector' 
+and b.table_id=a.table_id and b.field_name='code';
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Processing sheet: industry
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('industry', 'industry', 'industry')
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'industry_id','SERIAL', 'industry id', true FROM system_parameters.business_tables WHERE table_name='industry' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'name','VARCHAR(255)', 'Tên nghành cụ thể' FROM system_parameters.business_tables WHERE table_name='industry' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'sector_id','SERIAL', 'Tên nghành', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='industry' and b.table_name='sector' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'code','VARCHAR(50)', 'Mã nghành cụ thể' FROM system_parameters.business_tables WHERE table_name='industry' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='industry' 
+and b.table_id=a.table_id and b.field_name='code';
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Processing sheet: company
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('company', 'company', 'company')
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'company_id','SERIAL', 'company id', true FROM system_parameters.business_tables WHERE table_name='company' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'name','VARCHAR(255)', 'Tên tổ chức phát hành' FROM system_parameters.business_tables WHERE table_name='company' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'industry_id','SERIAL', 'Tên nghành cụ thể', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='company' and b.table_name='industry' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'country_id','SERIAL', 'Tên quốc gia', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='company' and b.table_name='country' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'code','VARCHAR(50)', 'Mã tổ chức phát hành' FROM system_parameters.business_tables WHERE table_name='company' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='company' 
+and b.table_id=a.table_id and b.field_name='code';
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Processing sheet: stock
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('stock', 'stock', 'stock')
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'stock_id','SERIAL', 'stock_id', true FROM system_parameters.business_tables WHERE table_name='stock' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'code','VARCHAR(10)', 'Mã chứng khoán' FROM system_parameters.business_tables WHERE table_name='stock' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'company_id','SERIAL', 'Tên công ty', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='stock' and b.table_name='company' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'listing_date','DATE', 'Ngày niêm yết' FROM system_parameters.business_tables WHERE table_name='stock' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'outstanding_shares','BIGINT', 'Cổ phiếu lưu hành' FROM system_parameters.business_tables WHERE table_name='stock' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'exchange_id','SERIAL', 'Tên sàn giao dịch', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='stock' and b.table_name='exchange' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='stock' 
+and b.table_id=a.table_id and b.field_name='code';
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Processing sheet: user
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('user', 'user', 'user');
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'user_id','SERIAL', 'user_id', true FROM system_parameters.business_tables WHERE table_name='user' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'user_type','VARCHAR(20)', 'Loại người dùng' FROM system_parameters.business_tables WHERE table_name='user' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'experience','TEXT', 'Kinh nghiệm của leader' FROM system_parameters.business_tables WHERE table_name='user' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'investment_strategy','TEXT', 'Chiến lược đầu tư leader' FROM system_parameters.business_tables WHERE table_name='user' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'capital_scale','NUMERIC(15, 2)', 'Quy mô vốn đầu tư leader' FROM system_parameters.business_tables WHERE table_name='user' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'ethical_commitment','TEXT', 'Cam kết đạo đức nghề nghiệp leader' FROM system_parameters.business_tables WHERE table_name='user' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'risk_profile','VARCHAR(50)', 'Đánh giá độ rủi ro của follower' FROM system_parameters.business_tables WHERE table_name='user' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'investment_budget','NUMERIC(15, 2)', 'Ngân sách đầu tư follower' FROM system_parameters.business_tables WHERE table_name='user' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'unpaid_fee','NUMERIC(15, 0)', 'Số phí còn nợ' FROM system_parameters.business_tables WHERE table_name='user' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'status','INT', 'Trạng thái tài khoản(0: bình thường, 1: nhóm nợ 30 ngày, 2: nhóm nợ 90 ngày, 3: nhóm nợ 180 ngày' FROM system_parameters.business_tables WHERE table_name='user' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Processing sheet: contract
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('contract', 'contract', 'contract')
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'contract_id','SERIAL', 'contract_id', true FROM system_parameters.business_tables WHERE table_name='contract' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'contract_number','VARCHAR(50)', 'Số hợp đồng' FROM system_parameters.business_tables WHERE table_name='contract' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Leader/Follower', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='contract' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'contract_title','VARCHAR(255)', 'Tên hợp đồng' FROM system_parameters.business_tables WHERE table_name='contract' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'contract_body','TEXT', 'Nội dung hợp đồng' FROM system_parameters.business_tables WHERE table_name='contract' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'status','VARCHAR(20)', 'Trạng thái (VD: Draft, Signed, Cancelled).' FROM system_parameters.business_tables WHERE table_name='contract' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'created_at','TIMESTAMP', 'Ngày tạo hợp đồng' FROM system_parameters.business_tables WHERE table_name='contract' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'signed_at','TIMESTAMP', 'Ngày ký hợp đồng' FROM system_parameters.business_tables WHERE table_name='contract' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'signature_data','JSONB', 'Dữ liệu chữ ký số (VD: public key, hash)' FROM system_parameters.business_tables WHERE table_name='contract' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'type','INT', 'Loại hợp đồng (0: leader; 1: follower)' FROM system_parameters.business_tables WHERE table_name='contract' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='contract' 
+and b.table_id=a.table_id and b.field_name='contract_number';
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Processing sheet: ekyc
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('ekyc', 'ekyc', 'ekyc')
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'ekyc_id','SERIAL', 'ekyc_id', true FROM system_parameters.business_tables WHERE table_name='ekyc' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'verification_type','VARCHAR(50)', 'Loại eKYC (VD: OCR, NFC, Face Match).' FROM system_parameters.business_tables WHERE table_name='ekyc' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Leader/Follower', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='ekyc' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'status','VARCHAR(20)', 'Trạng thái xác minh (VD: Success, Failed).' FROM system_parameters.business_tables WHERE table_name='ekyc' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'verification_data','JSONB', 'Dữ liệu chi tiết (VD: ảnh khuôn mặt, thông tin CCCD).' FROM system_parameters.business_tables WHERE table_name='ekyc' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'created_at','TIMESTAMP', 'Ngày bắt đầu eKYC.' FROM system_parameters.business_tables WHERE table_name='ekyc' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'completed_at','TIMESTAMP', 'Ngày hoàn tất eKYC.' FROM system_parameters.business_tables WHERE table_name='ekyc' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Processing sheet: nfc
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('nfc', 'nfc', 'nfc')
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'nfc_id','SERIAL', 'nfc_id', true FROM system_parameters.business_tables WHERE table_name='nfc' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'cccd_number','VARCHAR(20)', 'Số căn cước công dân.' FROM system_parameters.business_tables WHERE table_name='nfc' ;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:19 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Leader/Follower', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='nfc' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:19 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'issue_date','DATE', 'Ngày cấp.' FROM system_parameters.business_tables WHERE table_name='nfc' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'expiry_date','DATE', 'Ngày hết hạn.' FROM system_parameters.business_tables WHERE table_name='nfc' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'place_of_issue','VARCHAR(150)', 'Nơi cấp.' FROM system_parameters.business_tables WHERE table_name='nfc' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'personal_data','JSONB', 'Thông tin cá nhân (VD: ảnh, chữ ký).' FROM system_parameters.business_tables WHERE table_name='nfc' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'created_at','TIMESTAMP', 'Ngày lưu thông tin NFC.' FROM system_parameters.business_tables WHERE table_name='nfc' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='nfc' 
+and b.table_id=a.table_id and b.field_name='cccd_number';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: package
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('package', 'package', 'package')
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'package_id','SERIAL', 'ID duy nhất của gói dịch vụ.', true FROM system_parameters.business_tables WHERE table_name='package' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'name','VARCHAR(100)', 'Tên gói dịch vụ.' FROM system_parameters.business_tables WHERE table_name='package' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'description','TEXT', 'Mô tả chi tiết gói dịch vụ.' FROM system_parameters.business_tables WHERE table_name='package' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'status','VARCHAR(50)', 'Trạng thái gói' FROM system_parameters.business_tables WHERE table_name='package' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'table_name','VARCHAR(50)', 'Tên bảng chứa thông tin ' FROM system_parameters.business_tables WHERE table_name='package' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: leader_package
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('leader_package', 'leader_package', 'leader_package')
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'leader_package_id','SERIAL', 'ID của gói dữ liệu', true FROM system_parameters.business_tables WHERE table_name='leader_package' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'monthly_fee','NUMERIC(15, 2) NOT NULL', 'Phí khai thác hàng tháng (VNĐ)' FROM system_parameters.business_tables WHERE table_name='leader_package' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'package_id','SERIAL', 'Thông tin gói leader tham gia', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='leader_package' and b.table_name='package' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'record_fee_rate','NUMERIC(5, 2) DEFAULT 0.00', 'Phí truy vấn trên mỗi bản ghi (%)' FROM system_parameters.business_tables WHERE table_name='leader_package' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'created_at','TIMESTAMP DEFAULT NOW()', 'Thời gian tạo' FROM system_parameters.business_tables WHERE table_name='leader_package' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Leader', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='leader_package' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'status','VARCHAR(50)', 'Trạng thái gói (VD: Active, Inactive).' FROM system_parameters.business_tables WHERE table_name='leader_package' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'trade_fee_rate','NUMERIC(5, 2) DEFAULT 0.00', 'Phí giao dịch (%)' FROM system_parameters.business_tables WHERE table_name='leader_package' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='leader_package' 
+and b.table_id=a.table_id and b.field_name='package_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='leader_package' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='leader_package' 
+and b.table_id=a.table_id and b.field_name='status';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: subscription
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('subscription', 'subscription', 'subscription')
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'subscription_id','SERIAL', 'ID duy nhất của đăng ký.', true FROM system_parameters.business_tables WHERE table_name='subscription' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'start_date','DATE', 'Ngày bắt đầu sử dụng dịch vụ.' FROM system_parameters.business_tables WHERE table_name='subscription' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'end_date','DATE', 'Ngày kết thúc dịch vụ.' FROM system_parameters.business_tables WHERE table_name='subscription' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'status','VARCHAR(50)', 'Trạng thái (VD: Active, Expired, Cancelled).' FROM system_parameters.business_tables WHERE table_name='subscription' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'created_at','TIMESTAMP', 'Thời gian tạo đăng ký.' FROM system_parameters.business_tables WHERE table_name='subscription' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'updated_at','TIMESTAMP', 'Thời gian cập nhật thông tin.' FROM system_parameters.business_tables WHERE table_name='subscription' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Follower', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='subscription' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'leader_package_id','SERIAL', 'Tên gói Leader', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='subscription' and b.table_name='leader_package' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='subscription' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='subscription' 
+and b.table_id=a.table_id and b.field_name='leader_package_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='subscription' 
+and b.table_id=a.table_id and b.field_name='status';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: advisory
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description, is_archive) VALUES ('advisory', 'advisory', 'advisory',true)
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'advice_id','SERIAL', 'advice_id', true FROM system_parameters.business_tables WHERE table_name='advisory' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Leader', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='advisory' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'stock_id','SERIAL', 'Mã chứng khoán tư vấn', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='advisory' and b.table_name='stock' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'advice_content','TEXT', 'Nội dung tư vấn' FROM system_parameters.business_tables WHERE table_name='advisory' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='advisory' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='advisory' 
+and b.table_id=a.table_id and b.field_name='stock_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: financial_metric
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description,is_archive) VALUES ('financial_metric', 'financial_metric', 'financial_metric', true)
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'metric_id','SERIAL', 'metric_id', true FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'stock_id','SERIAL', 'Mã chứng khoán', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='financial_metric' and b.table_name='stock' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Leader', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='financial_metric' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'leader_ownership_ratio','NUMERIC(5, 2)', 'Tỷ lệ sở hữu của ban lãnh đạo ' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'institutional_ownership_ratio','NUMERIC(5, 2)', 'Tỷ lệ sở hữu của Tổ chức' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'foreign_institutional_ownership_ratio','NUMERIC(5, 2)', 'Tỷ lệ sở hữu của Tổ chức nước ngoài' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'institutional_shareholders_count','INT', 'Số lượng cổ đông là Tổ chức' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'foreign_institutional_shareholders_count','INT', 'Số lượng cổ đông là Tổ chức nước ngoài' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'current_price','NUMERIC(10, 2)', 'Giá hiện tại' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_strength_RS','NUMERIC(5, 2)', 'Sức mạnh giá - RS' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'beta','NUMERIC(5, 2)', 'Beta' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_rise_above_peak','NUMERIC(10, 2)', 'Giá tăng vượt đỉnh' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_fall_below_bottom','NUMERIC(10, 2)', 'Giá giảm thủng đáy' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_change_today','NUMERIC(5, 2)', 'Thay đổi giá hôm nay (%)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_change_1_week','NUMERIC(5, 2)', 'Thay đổi giá 1 tuần (%)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_change_1_month','NUMERIC(5, 2)', 'Thay đổi giá 1 tháng (%)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_change_3_months','NUMERIC(5, 2)', 'Thay đổi giá 3 tháng (%)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_change_6_months','NUMERIC(5, 2)', 'Thay đổi giá 6 tháng (%)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_change_1_year','NUMERIC(5, 2)', 'Thay đổi giá 1 năm (%)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'continuous_up_days','INT', 'Số phiên tăng giá liên tục' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'continuous_up_days_before_down','INT', 'Số phiên tăng giá liên tục trước khi đảo chiều giảm' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'continuous_down_days','INT', 'Số phiên giảm giá liên tục' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'continuous_down_days_before_up','INT', 'Số phiên giảm giá liên tục trước khi đảo chiều tăng' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'total_trading_volume','BIGINT', 'Tổng KL' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'buy_side_activity_percentage','NUMERIC(5, 2)', '% KL khớp lệnh do bên mua chủ động' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'predicted_volume_above_avg_percentage','NUMERIC(5, 2)', 'KL dự kiến vượt TB các phiên trước (%)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_volume_5_days','BIGINT', 'KLTB 5 phiên' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_volume_10_days','BIGINT', 'KLTB 10 phiên' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_volume_20_days','BIGINT', 'KLTB 20 phiên' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_volume_3_months','BIGINT', 'KLTB 3 tháng' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'foreign_buy_net_volume','BIGINT', 'KL Nước ngoài mua ròng' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'foreign_buy_net_value','NUMERIC(10, 2)', 'GT Nước ngoài mua ròng' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_cross_up_sma','NUMERIC(10, 2)', 'Giá hiện tại cắt lên đường SMA' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_cross_down_sma','NUMERIC(10, 2)', 'Giá hiện tại cắt xuống đường SMA' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_cross_up_ema','NUMERIC(10, 2)', 'Giá hiện tại cắt lên đường EMA' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_cross_down_ema','NUMERIC(10, 2)', 'Giá hiện tại cắt xuống đường EMA' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'short_sma_cross_up_long_sma','NUMERIC(10, 2)', 'SMA ngắn hạn cắt lên SMA dài hạn' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'short_sma_cross_down_long_sma','NUMERIC(10, 2)', 'SMA ngắn hạn cắt xuống SMA dài hạn' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'rsi_14_overbought','BOOLEAN', 'RSI(14) đi vào vùng quá mua' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'rsi_14_exit_overbought','BOOLEAN', 'RSI(14) thoát khỏi vùng quá mua' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'rsi_14_in_overbought','BOOLEAN', 'RSI(14) đang ở vùng quá mua' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'rsi_14_oversold','BOOLEAN', 'RSI(14) đi vào vùng quá bán' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'rsi_14_exit_oversold','BOOLEAN', 'RSI(14) thoát khỏi vùng quá bán' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'rsi_14_in_oversold','BOOLEAN', 'RSI(14) đang ở vùng quá bán' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'mfi_14_overbought','BOOLEAN', 'MFI(14) đi vào vùng quá mua' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'mfi_14_exit_overbought','BOOLEAN', 'MFI(14) thoát khỏi vùng quá mua' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'mfi_14_in_overbought','BOOLEAN', 'MFI(14) đang ở trong vùng quá mua' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'mfi_14_oversold','BOOLEAN', 'MFI(14) đi vào vùng quá bán' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'mfi_14_exit_oversold','BOOLEAN', 'MFI(14) thoát khỏi vùng quá bán' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'mfi_14_in_oversold','BOOLEAN', 'MFI(14) đang ở trong vùng quá bán' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_cross_above_upper_bollinger','NUMERIC(10, 2)', 'Giá thoát ra ngoài biên trên Bollinger Band (20)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_cross_down_from_upper_bollinger','NUMERIC(10, 2)', 'Giá cắt xuống từ ngoài biên trên Bollinger Band (20)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_in_upper_bollinger','NUMERIC(10, 2)', 'Giá đang ở ngoài biên trên Bollinger Band (20)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_cross_below_lower_bollinger','NUMERIC(10, 2)', 'Giá thoát ra ngoài biên dưới Bollinger Band (20)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_cross_up_from_lower_bollinger','NUMERIC(10, 2)', 'Giá cắt lên từ ngoài biên dưới Bollinger Band (20)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price_in_lower_bollinger','NUMERIC(10, 2)', 'Giá đang ở ngoài biên dưới Bollinger Band (20)' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'macd_cross_up_signal_line','NUMERIC(10, 2)', 'MACD cắt lên đường tín hiệu' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'macd_above_signal_line','NUMERIC(10, 2)', 'MACD đang ở trên đường tín hiệu' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'macd_cross_down_signal_line','NUMERIC(10, 2)', 'MACD cắt xuống đường tín hiệu' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'macd_below_signal_line','NUMERIC(10, 2)', 'MACD đang ở dưới đường tín hiệu' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'macd_cross_up_zero_line','NUMERIC(10, 2)', 'MACD cắt lên đường 0' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'macd_above_zero_line','NUMERIC(10, 2)', 'MACD đang ở trên đường 0' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'macd_cross_down_zero_line','NUMERIC(10, 2)', 'MACD cắt xuống đường 0' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'macd_below_zero_line','NUMERIC(10, 2)', 'MACD đang ở dưới đường 0' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'revenue_4_quarters','NUMERIC(10, 2)', 'Doanh thu 4 quý' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'profit_4_quarters','NUMERIC(10, 2)', 'Lợi nhuận 4 quý' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'revenue_growth_latest_quarter','NUMERIC(5, 2)', 'Tăng trưởng DT quý gần nhất' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'revenue_growth_second_latest_quarter','NUMERIC(5, 2)', 'Tăng trưởng DT quý gần nhì' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'revenue_growth_4_quarters','NUMERIC(5, 2)', 'Tăng trưởng DT 4 quý' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'profit_growth_latest_quarter','NUMERIC(5, 2)', 'Tăng trưởng LN quý gần nhất' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'profit_growth_second_latest_quarter','NUMERIC(5, 2)', 'Tăng trưởng LN quý gần nhì' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'profit_growth_4_quarters','NUMERIC(5, 2)', 'Tăng trưởng LN 4 quý' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'dividend_cash','NUMERIC(10, 2)', 'Cổ tức bằng tiền' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'eps','NUMERIC(10, 2)', 'EPS' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'pe_ratio','NUMERIC(10, 2)', 'P/E' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'ps_ratio','NUMERIC(10, 2)', 'P/S' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'pb_ratio','NUMERIC(10, 2)', 'P/B' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'eps_growth_4_quarters','NUMERIC(5, 2)', 'Tăng trưởng EPS 4 quý' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'market_capitalization','NUMERIC(10, 2)', 'Thị giá vốn' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'net_margin','NUMERIC(5, 2)', 'Tỷ lệ lãi ròng' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'gross_margin','NUMERIC(5, 2)', 'Tỷ lệ lãi gộp' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'operating_margin','NUMERIC(5, 2)', 'Tỷ lệ lãi từ HĐKD' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'ebit_margin','NUMERIC(5, 2)', 'Tỷ lệ EBIT' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'current_ratio','NUMERIC(5, 2)', 'Thanh toán hiện hành' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'quick_ratio','NUMERIC(5, 2)', 'Thanh toán nhanh' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'interest_coverage_ratio','NUMERIC(5, 2)', 'Thanh toán lãi vay' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'debt_equity_ratio','NUMERIC(5, 2)', 'Nợ/Vốn CSH' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'debt_total_assets_ratio','NUMERIC(5, 2)', 'Nợ/Tổng tài sản' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'roa','NUMERIC(5, 2)', 'ROA' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'roe','NUMERIC(5, 2)', 'ROE' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'roic','NUMERIC(5, 2)', 'ROIC' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'roce','NUMERIC(5, 2)', 'ROCE' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'total_asset_turnover','NUMERIC(5, 2)', 'Vòng quay tổng TS' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'inventory_turnover','NUMERIC(5, 2)', 'Vòng quay hàng tồn kho' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'receivables_turnover','NUMERIC(5, 2)', 'Vòng quay các khoản phải thu' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'short_term_asset_turnover','NUMERIC(5, 2)', 'Vòng quay tài sản ngắn hạn' FROM system_parameters.business_tables WHERE table_name='financial_metric' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='financial_metric' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='financial_metric' 
+and b.table_id=a.table_id and b.field_name='stock_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: watch_list
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description,is_archive) VALUES ('watch_list', 'watch_list', 'watch_list',true)
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'watch_list_id','SERIAL', 'watch_list_id', true FROM system_parameters.business_tables WHERE table_name='watch_list' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'stock_id','SERIAL', 'Tên chứng khoán', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='watch_list' and b.table_name='stock' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Leader', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='watch_list' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='watch_list' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='watch_list' 
+and b.table_id=a.table_id and b.field_name='stock_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: news_source
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('news_source', 'news_source', 'news_source')
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'source_id','SERIAL', 'ID của nguồn tin', true FROM system_parameters.business_tables WHERE table_name='news_source' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'source_name','VARCHAR(255)', 'Tên nguồn tin' FROM system_parameters.business_tables WHERE table_name='news_source' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'source_type','VARCHAR(50)', 'Loại nguồn (news, social_media, forum)' FROM system_parameters.business_tables WHERE table_name='news_source' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: news_article
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description,is_archive) VALUES ('news_article', 'news_article', 'news_article', true)
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'article_id','SERIAL', 'ID bài viết', true FROM system_parameters.business_tables WHERE table_name='news_article' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'source_id','SERIAL', 'Tên nguồn tin', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='news_article' and b.table_name='news_source' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'stock_id','SERIAL', 'Tên chứng khoán', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='news_article' and b.table_name='stock' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'title','VARCHAR(500)', 'Tiêu đề bài viết' FROM system_parameters.business_tables WHERE table_name='news_article' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'content','TEXT', 'Tóm tắt nội dung bài viết' FROM system_parameters.business_tables WHERE table_name='news_article' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'file_data','BYTEA', 'Tệp tin ' FROM system_parameters.business_tables WHERE table_name='news_article' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Leader', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='news_article' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='news_article' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='news_article' 
+and b.table_id=a.table_id and b.field_name='stock_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='news_article' 
+and b.table_id=a.table_id and b.field_name='source_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: follower_query
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description,is_archive, is_screen) VALUES ('follower_query', 'follower_query', 'follower_query',true, false)
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'query_id','SERIAL', 'ID của truy vấn', true FROM system_parameters.business_tables WHERE table_name='follower_query' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'query_content','TEXT NOT NULL', 'Nội dung truy vấn (query string)' FROM system_parameters.business_tables WHERE table_name='follower_query' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'subscription_id','SERIAL', 'Tên gói dịch vụ', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='follower_query' and b.table_name='subscription' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'record_count','INT NOT NULL', 'Số lượng bản ghi truy xuất được' FROM system_parameters.business_tables WHERE table_name='follower_query' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'query_fee','NUMERIC(15, 2)', 'Phí truy vấn (VNĐ)' FROM system_parameters.business_tables WHERE table_name='follower_query' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='follower_query' 
+and b.table_id=a.table_id and b.field_name='subscription_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: afl
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('afl', 'afl', 'afl')
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'afl_id','SERIAL', 'ID tự tăng định danh từng mã AFL.', true FROM system_parameters.business_tables WHERE table_name='afl' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'afl_name','VARCHAR(255)', 'Tên của mã AFL (ví dụ: Moving Average Crossover, RSI Strategy).' FROM system_parameters.business_tables WHERE table_name='afl' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Leader', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='afl' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'description','TEXT', 'Mô tả chi tiết về mục đích và cách hoạt động của mã AFL.' FROM system_parameters.business_tables WHERE table_name='afl' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'created_date','DATE', 'Ngày viết hoặc hoàn thiện mã AFL.' FROM system_parameters.business_tables WHERE table_name='afl' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'version','VARCHAR(50)', 'Phiên bản của mã AFL (nếu có).' FROM system_parameters.business_tables WHERE table_name='afl' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'afl_type','VARCHAR(50)', 'Loại mã AFL (ví dụ: Indicator, Backtest Strategy, Exploration).' FROM system_parameters.business_tables WHERE table_name='afl' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'afl_code','TEXT', 'Toàn bộ nội dung của mã AFL (dưới dạng text).' FROM system_parameters.business_tables WHERE table_name='afl' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'special_requirements','TEXT', 'Các yêu cầu đặc biệt (ví dụ: dữ liệu cụ thể, plugin).' FROM system_parameters.business_tables WHERE table_name='afl' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'status','VARCHAR(50)', 'Trạng thái của mã AFL (ví dụ: "Active", "Deprecated").' FROM system_parameters.business_tables WHERE table_name='afl' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'notes','TEXT', 'Ghi chú bổ sung về mã AFL (nếu có).' FROM system_parameters.business_tables WHERE table_name='afl' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: trade_setting
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description, is_screen) VALUES ('trade_setting', 'trade_setting', 'trade_setting', false)
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'trade_setting_id','SERIAL', 'trade_setting_id', true FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'initial_equity','NUMERIC(15, 2)', 'Vốn ban đầu' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'afl_id','SERIAL', 'Tên thuật toán', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='trade_setting' and b.table_name='afl' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'periodicity_positions','VARCHAR(50)', 'Tần suất/Loại giao dịch (Hàng ngày/Giao dịch dài)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'commissions','NUMERIC(5, 2)', 'Phí giao dịch' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'annual_interest_rate','NUMERIC(5, 2)', 'Lãi suất hàng năm' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'range','VARCHAR(50)', 'Khoảng thời gian' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'apply_to_filter','VARCHAR(50)', 'Áp dụng bộ lọc' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'include_filter','VARCHAR(255)', 'Bộ lọc bao gồm (Include Filter)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'exclude_filter','VARCHAR(255)', 'Bộ lọc loại trừ (Exclude Filter)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'group_stock','VARCHAR(255)', 'Nhóm cổ phiếu' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'sector','VARCHAR(255)', 'Lĩnh vực (Sector)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'industry','VARCHAR(255)', 'Ngành (Industry)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'watchlist','VARCHAR(255)', 'Danh sách theo dõi (Watchlist)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'gics','VARCHAR(50)', 'Mã ngành theo GICS' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'icb','VARCHAR(50)', 'Mã ngành theo ICB' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'index','VARCHAR(50)', 'Chỉ số (Index)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'favourite','BOOLEAN', 'Yêu thích (Favourite)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'account_margin','NUMERIC(10, 2)', 'Hệ số đòn bẩy tài khoản' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'futures_mode','BOOLEAN', 'Chế độ hợp đồng tương lai (Futures mode)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'def_round_lot_size','INT', 'Kích thước lô tròn mặc định' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'def_tick_size','NUMERIC(10, 2)', 'Kích thước điểm (Tick Size)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'drawdowns_based_on','VARCHAR(50)', 'Tính toán giảm giá trị dựa trên: Giá cao/thấp' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'long_trades','BOOLEAN', 'Giao dịch dài (Long trades)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'buy_price','VARCHAR(50)', 'Giá mua giao dịch dài (Buy price)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'sell_price','VARCHAR(50)', 'Giá bán giao dịch dài (Sell price)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'buy_delay','INT', 'Thời gian trễ mua (Buy delay)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'sell_delay','INT', 'Thời gian trễ bán (Sell delay)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'short_trades','BOOLEAN', 'Giao dịch bán khống (Short trades)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'short_price','VARCHAR(50)', 'Giá bán khống (Short price)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'cover_price','VARCHAR(50)', 'Giá mua lại (Cover price)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'short_delay','INT', 'Thời gian trễ bán khống (Short delay)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'cover_delay','INT', 'Thời gian trễ mua lại (Cover delay)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'max_loss','BOOLEAN', 'Dừng lỗ tối đa (Maximum loss)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'profit_target','BOOLEAN', 'Mục tiêu lợi nhuận (Profit target)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'max_loss_value','NUMERIC(15, 2)', 'Giá trị dừng lỗ tối đa' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'profit_target_value','NUMERIC(15, 2)', 'Giá trị mục tiêu lợi nhuận' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'exit_at_stop','BOOLEAN', 'Dừng lỗ có áp dụng không (Exit at stop)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'trailing_stop','BOOLEAN', 'Dừng lỗ theo dõi (Trailing stop)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'trailing_stop_value','NUMERIC(15, 2)', 'Giá trị dừng lỗ theo dõi' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'trailing_exit_at_stop','BOOLEAN', 'Dừng lỗ theo dõi có áp dụng không (Exit at stop)' FROM system_parameters.business_tables WHERE table_name='trade_setting' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: trade_statistic
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description, is_screen) VALUES ('trade_statistic', 'trade_statistic', 'trade_statistic', false)
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'trade_statistic_id','SERIAL', 'trade_statistic_id', true FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'stat_type','VARCHAR(50)', 'Loại thống kê (Tất cả giao dịch, Giao dịch Long, Giao dịch Short)' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'afl_id','SERIAL', 'Tên thuật toán', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='trade_statistic' and b.table_name='afl' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'stock_id','SERIAL', 'Mã chứng khoán', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='trade_statistic' and b.table_name='stock' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'initial_capital','NUMERIC(15, 2)', 'Vốn ban đầu' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'ending_capital','NUMERIC(15, 2)', 'Vốn kết thúc' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'net_profit','NUMERIC(15, 2)', 'Lợi nhuận ròng' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'net_profit_percent','NUMERIC(6, 2)', 'Tỷ lệ phần trăm lợi nhuận ròng' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'exposure_percent','NUMERIC(6, 2)', 'Tỷ lệ tiếp xúc (Exposure)' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'net_risk_adjusted_return_percent','NUMERIC(6, 2)', 'Lợi nhuận điều chỉnh rủi ro (Risk-Adjusted Return)' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'annual_return_percent','NUMERIC(6, 2)', 'Lợi nhuận hàng năm (Annual Return)' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'risk_adjusted_return_percent','NUMERIC(6, 2)', 'Lợi nhuận điều chỉnh rủi ro trong hệ thống' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'total_transaction_costs','NUMERIC(15, 2)', 'Tổng chi phí giao dịch' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'total_trades','INT', 'Tổng số giao dịch' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'long_trades','INT', 'Số giao dịch Long' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'short_trades','INT', 'Số giao dịch Short' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_profit_loss','NUMERIC(15, 2)', 'Lợi nhuận/lỗ trung bình' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_profit_loss_percent','NUMERIC(6, 2)', 'Tỷ lệ lợi nhuận/lỗ trung bình' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_bars_held','NUMERIC(10, 2)', 'Số thanh trung bình giữ' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'winners_count','INT', 'Số giao dịch thắng' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'total_profit','NUMERIC(15, 2)', 'Tổng lợi nhuận' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_profit','NUMERIC(15, 2)', 'Lợi nhuận trung bình' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_profit_percent','NUMERIC(6, 2)', 'Tỷ lệ lợi nhuận trung bình' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_bars_held_winners','NUMERIC(10, 2)', 'Số thanh trung bình của các giao dịch thắng' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'max_consecutive_winners','INT', 'Số giao dịch thắng liên tiếp lớn nhất' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'largest_win','NUMERIC(15, 2)', 'Giao dịch thắng lớn nhất' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'bars_in_largest_win','INT', 'Số thanh trong giao dịch thắng lớn nhất' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'losers_count','INT', 'Số giao dịch thua' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'total_loss','NUMERIC(15, 2)', 'Tổng lỗ' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_loss','NUMERIC(15, 2)', 'Lỗ trung bình' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_loss_percent','NUMERIC(6, 2)', 'Tỷ lệ lỗ trung bình' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'avg_bars_held_losers','NUMERIC(10, 2)', 'Số thanh trung bình của các giao dịch thua' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'max_consecutive_losers','INT', 'Số giao dịch thua liên tiếp lớn nhất' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'largest_loss','NUMERIC(15, 2)', 'Giao dịch thua lớn nhất' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'bars_in_largest_loss','INT', 'Số thanh trong giao dịch thua lớn nhất' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'max_trade_drawdown','NUMERIC(15, 2)', 'Mức giảm vốn tối đa trong một giao dịch' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'max_trade_drawdown_percent','NUMERIC(6, 2)', 'Tỷ lệ phần trăm giảm vốn tối đa trong một giao dịch' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'max_system_drawdown','NUMERIC(15, 2)', 'Mức giảm vốn tối đa trong hệ thống' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'max_system_drawdown_percent','NUMERIC(6, 2)', 'Tỷ lệ phần trăm giảm vốn tối đa trong hệ thống' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'recovery_factor','NUMERIC(10, 2)', 'Chỉ số phục hồi' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'car_maxdd','NUMERIC(10, 2)', 'Tỷ lệ CAR/MaxDD' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'rar_maxdd','NUMERIC(10, 2)', 'Tỷ lệ RAR/MaxDD' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'profit_factor','NUMERIC(10, 2)', 'Tỷ lệ lợi nhuận của hệ thống' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'payoff_ratio','NUMERIC(10, 2)', 'Tỷ lệ payoff (lợi nhuận/chi phí)' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'standard_error','NUMERIC(15, 2)', 'Sai số chuẩn (Standard Error)' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'risk_reward_ratio','NUMERIC(10, 2)', 'Tỷ lệ rủi ro/lợi nhuận' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'ulcer_index','NUMERIC(10, 2)', 'Chỉ số Ulcer (mức độ tổn thương trong giao dịch)' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'ulcer_performance_index','NUMERIC(10, 2)', 'Chỉ số Ulcer Performance' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'sharpe_ratio_of_trades','NUMERIC(10, 2)', 'Tỷ lệ Sharpe của các giao dịch' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'k_ratio','NUMERIC(10, 2)', 'Tỷ lệ K của hệ thống' FROM system_parameters.business_tables WHERE table_name='trade_statistic' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: trade_entry
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description, is_screen) VALUES ('trade_entry', 'trade_entry', 'trade_entry', false)
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'trade_entry_id','SERIAL', 'trade_entry_id', true FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'trade_type','VARCHAR(10) NOT NULL', 'Loại giao dịch (Long/Short)' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'afl_id','SERIAL', 'Tên thuật toán', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='trade_entry' and b.table_name='afl' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'stock_id','SERIAL', 'Mã chứng khoán', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='trade_entry' and b.table_name='stock' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'entry_date','TIMESTAMP NOT NULL', 'Ngày vào lệnh' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'entry_price','NUMERIC(10, 5) NOT NULL', 'Giá vào lệnh' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'exit_date','TIMESTAMP', 'Ngày thoát lệnh' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'exit_price','NUMERIC(10, 5)', 'Giá thoát lệnh' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'percentage_change','NUMERIC(6, 2)', '% thay đổi giá' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'profit','NUMERIC(10, 2)', 'Lợi nhuận' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'shares','NUMERIC(10, 2)', 'Số lượng cổ phiếu' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'position_value','NUMERIC(15, 2)', 'Giá trị vị thế' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'cumulative_profit','NUMERIC(15, 2)', 'Lợi nhuận tích lũy' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'num_bars','INT', 'Số lượng thanh' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'profit_per_bar','NUMERIC(10, 2)', 'Lợi nhuận trên mỗi thanh' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'mae_mfe','VARCHAR(20)', 'MAE/MFE (Maximum Adverse/Favorable Excursion)' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'scale_in_out','VARCHAR(20)', 'Thang đo vào/ra' FROM system_parameters.business_tables WHERE table_name='trade_entry' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: trade_signal
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description,is_archive) VALUES ('trade_signal', 'trade_signal', 'trade_signal',true)
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'trade_signal_id','SERIAL', 'trade_signal_id', true FROM system_parameters.business_tables WHERE table_name='trade_signal' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'stock_id','SERIAL', 'Mã chứng khoán', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='trade_signal' and b.table_name='stock' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'signal_type','VARCHAR(4)', 'Loại tín hiệu' FROM system_parameters.business_tables WHERE table_name='trade_signal' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'price','NUMERIC(15, 2)', 'Giá' FROM system_parameters.business_tables WHERE table_name='trade_signal' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'stop_loss','NUMERIC(15, 2)', 'Giá cắt lỗ' FROM system_parameters.business_tables WHERE table_name='trade_signal' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'take_profit','NUMERIC(15, 2)', 'Giá chốt lời' FROM system_parameters.business_tables WHERE table_name='trade_signal' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'risk','NUMERIC(15, 2)', 'Tỉ lệ rủi ro' FROM system_parameters.business_tables WHERE table_name='trade_signal' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'reward','NUMERIC(15, 2)', 'Tỉ lệ lợi nhuận' FROM system_parameters.business_tables WHERE table_name='trade_signal' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'ratio','NUMERIC(6, 2)', 'Tỉ lệ rủi ro/lợi nhuận' FROM system_parameters.business_tables WHERE table_name='trade_signal' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Leader', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='trade_signal' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'afl_id','SERIAL', 'Tên thuật toán', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='trade_signal' and b.table_name='afl' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='trade_signal' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='trade_signal' 
+and b.table_id=a.table_id and b.field_name='afl_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='trade_signal' 
+and b.table_id=a.table_id and b.field_name='stock_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: order
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description,is_archive, is_screen) VALUES ('order', 'order', 'order',true, false)
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'order_id','SERIAL', 'order_id', true FROM system_parameters.business_tables WHERE table_name='order' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'order_type','VARCHAR(10)', 'Loại lệnh (VD: Mua, Bán).' FROM system_parameters.business_tables WHERE table_name='order' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'order_price','NUMERIC(10, 2)', 'Giá đặt lệnh.' FROM system_parameters.business_tables WHERE table_name='order' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'order_volume','INT', 'Khối lượng đặt lệnh.' FROM system_parameters.business_tables WHERE table_name='order' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'status','VARCHAR(20)', 'Trạng thái lệnh (VD: Pending, Matched, Cancelled).' FROM system_parameters.business_tables WHERE table_name='order' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'trade_signal_id','SERIAL', 'Tên tín hiệu', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='order' and b.table_name='trade_signal' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'subscription_id','SERIAL', 'Tên gói dịch vụ', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='order' and b.table_name='subscription' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'trade_fee','NUMERIC(10, 2)', 'Phí giao dịch ' FROM system_parameters.business_tables WHERE table_name='order' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='order' 
+and b.table_id=a.table_id and b.field_name='trade_signal_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='order' 
+and b.table_id=a.table_id and b.field_name='subscription_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: follower_fee
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description, is_archive, day_range) VALUES ('follower_fee', 'follower_fee', 'follower_fee', true, 365)
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'fee_id','SERIAL', 'ID của phí', true FROM system_parameters.business_tables WHERE table_name='follower_fee' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'monthly_fee','NUMERIC(15, 2) DEFAULT 0.00', 'Tổng phí khai thác hàng tháng' FROM system_parameters.business_tables WHERE table_name='follower_fee' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Follower', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='follower_fee' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'query_fee','NUMERIC(15, 2) DEFAULT 0.00', 'Tổng phí truy vấn dữ liệu' FROM system_parameters.business_tables WHERE table_name='follower_fee' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'calculated_at','TIMESTAMP DEFAULT NOW()', 'Ngày ghi nhận phí' FROM system_parameters.business_tables WHERE table_name='follower_fee' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'subscription_id','SERIAL', 'Tên gói dịch vụ', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='follower_fee' and b.table_name='subscription' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'trade_fee','NUMERIC(15, 2) DEFAULT 0.00', 'Tổng phí giao dịch' FROM system_parameters.business_tables WHERE table_name='follower_fee' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='follower_fee' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='follower_fee' 
+and b.table_id=a.table_id and b.field_name='subscription_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: leader_fee
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description, is_archive, day_range) VALUES ('leader_fee', 'leader_fee', 'leader_fee', true, 365)
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'fee_id','SERIAL', 'ID của phí', true FROM system_parameters.business_tables WHERE table_name='leader_fee' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'monthly_fee','NUMERIC(15, 2) DEFAULT 0.00', 'Tổng phí khai thác hàng tháng' FROM system_parameters.business_tables WHERE table_name='leader_fee' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Leader', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='leader_fee' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'query_fee','NUMERIC(15, 2) DEFAULT 0.00', 'Tổng phí truy vấn dữ liệu' FROM system_parameters.business_tables WHERE table_name='leader_fee' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'calculated_at','TIMESTAMP DEFAULT NOW()', 'Ngày ghi nhận phí' FROM system_parameters.business_tables WHERE table_name='leader_fee' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'subscription_id','SERIAL', 'Tên gói dịch vụ', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='leader_fee' and b.table_name='subscription' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'trade_fee','NUMERIC(15, 2) DEFAULT 0.00', 'Tổng giao dịch' FROM system_parameters.business_tables WHERE table_name='leader_fee' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='leader_fee' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='leader_fee' 
+and b.table_id=a.table_id and b.field_name='subscription_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: payment_method
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('payment_method', 'payment_method', 'payment_method')
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'payment_method_id','SERIAL', 'ID duy nhất của phương thức thanh toán.', true FROM system_parameters.business_tables WHERE table_name='payment_method' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'name','VARCHAR(100)', 'Tên phương thức (VD: Visa, MasterCard, PayPal, Ngân hàng).' FROM system_parameters.business_tables WHERE table_name='payment_method' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'type','VARCHAR(50)', 'Loại phương thức (VD: Credit Card, E-Wallet, Bank Transfer).' FROM system_parameters.business_tables WHERE table_name='payment_method' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'description','TEXT', 'Mô tả chi tiết phương thức.' FROM system_parameters.business_tables WHERE table_name='payment_method' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'status','VARCHAR(50)', 'Trạng thái (VD: Active, Inactive).' FROM system_parameters.business_tables WHERE table_name='payment_method' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'created_at','TIMESTAMP', 'Thời gian tạo.' FROM system_parameters.business_tables WHERE table_name='payment_method' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'updated_at','TIMESTAMP', 'Thời gian cập nhật.' FROM system_parameters.business_tables WHERE table_name='payment_method' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Processing sheet: user_payment_method
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('user_payment_method', 'user_payment_method', 'user_payment_method')
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'user_payment_id','SERIAL', 'ID phương thức thanh toán của người dùng', true FROM system_parameters.business_tables WHERE table_name='user_payment_method' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'details','JSONB', 'Thông tin chi tiết phương thức thanh toán' FROM system_parameters.business_tables WHERE table_name='user_payment_method' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên Leader/Follower', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='user_payment_method' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'payment_method_id','SERIAL', 'Tên phương thức thanh toán', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='user_payment_method' and b.table_name='payment_method' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'is_default','BOOLEAN', 'Đánh dấu phương thức thanh toán mặc định' FROM system_parameters.business_tables WHERE table_name='user_payment_method' ;
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='user_payment_method' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='user_payment_method' 
+and b.table_id=a.table_id and b.field_name='payment_method_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='user_payment_method' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:20 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='user_payment_method' 
+and b.table_id=a.table_id and b.field_name='payment_method_id';
+2025-02-10 20:57:20 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='user_payment_method' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='user_payment_method' 
+and b.table_id=a.table_id and b.field_name='payment_method_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Processing sheet: payment
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description, is_archive, day_range) VALUES ('payment', 'payment', 'payment', true, 365)
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'payment_id','SERIAL', 'ID giao dịch thanh toán (duy nhất)', true FROM system_parameters.business_tables WHERE table_name='payment' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'amount','DECIMAL(10, 2)', 'Số tiền thanh toán' FROM system_parameters.business_tables WHERE table_name='payment' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'subscription_id','SERIAL', 'Tên gói dịch vụ', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='payment' and b.table_name='subscription' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_payment_method_id','SERIAL', 'Tên phương thức thanh toán của người sử dụng', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='payment' and b.table_name='user_payment_method' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'status','VARCHAR(50)', 'Trạng thái thanh toán (e.g., pending, completed)' FROM system_parameters.business_tables WHERE table_name='payment' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='payment' 
+and b.table_id=a.table_id and b.field_name='subscription_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='payment' 
+and b.table_id=a.table_id and b.field_name='user_payment_method_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Processing sheet: security_company
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('security_company', 'security_company', 'security_company')
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'security_company_id','SERIAL', 'ID duy nhất của công ty', true FROM system_parameters.business_tables WHERE table_name='security_company' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'name','VARCHAR(255)', 'Tên CTCK' FROM system_parameters.business_tables WHERE table_name='security_company' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'code','VARCHAR(50) NOT NULL', 'Mã công ty' FROM system_parameters.business_tables WHERE table_name='security_company' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'description','TEXT', 'Mô tả công ty' FROM system_parameters.business_tables WHERE table_name='security_company' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'created_at','TIMESTAMP DEFAULT NOW()', 'Thời gian tạo' FROM system_parameters.business_tables WHERE table_name='security_company' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='security_company' 
+and b.table_id=a.table_id and b.field_name='code';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Processing sheet: endpoint
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('endpoint', 'endpoint', 'endpoint')
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'endpoint_id','SERIAL', 'ID duy nhất của endpoint', true FROM system_parameters.business_tables WHERE table_name='endpoint' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'name','VARCHAR(255) NOT NULL', 'Tên Endpoint ' FROM system_parameters.business_tables WHERE table_name='endpoint' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'url','TEXT NOT NULL', 'URL của endpoint' FROM system_parameters.business_tables WHERE table_name='endpoint' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'description','TEXT', 'Mô tả endpoint' FROM system_parameters.business_tables WHERE table_name='endpoint' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'created_at','TIMESTAMP DEFAULT NOW()', 'Thời gian tạo' FROM system_parameters.business_tables WHERE table_name='endpoint' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'security_company_id','SERIAL', 'Tên CTCK', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='endpoint' and b.table_name='security_company' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='endpoint' 
+and b.table_id=a.table_id and b.field_name='security_company_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='endpoint' 
+and b.table_id=a.table_id and b.field_name='url';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Processing sheet: api
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('api', 'api', 'api')
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'api_id','SERIAL', 'ID duy nhất của API', true FROM system_parameters.business_tables WHERE table_name='api' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'api_name','VARCHAR(255) NOT NULL', 'Tên API' FROM system_parameters.business_tables WHERE table_name='api' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'endpoint_id','SERIAL', 'Tên Endpoint', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='api' and b.table_name='endpoint' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'method','VARCHAR(10) NOT NULL', 'Phương thức HTTP' FROM system_parameters.business_tables WHERE table_name='api' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'url','TEXT NOT NULL', 'URL tương đối của API' FROM system_parameters.business_tables WHERE table_name='api' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'description','TEXT', 'Mô tả API' FROM system_parameters.business_tables WHERE table_name='api' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'created_at','TIMESTAMP DEFAULT NOW()', 'Thời gian tạo' FROM system_parameters.business_tables WHERE table_name='api' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='api' 
+and b.table_id=a.table_id and b.field_name='endpoint_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='endpoint' 
+and b.table_id=a.table_id and b.field_name='url';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Processing sheet: api_parameter
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('api_parameter', 'api_parameter', 'api_parameter')
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'param_id','SERIAL', 'ID duy nhất của tham số', true FROM system_parameters.business_tables WHERE table_name='api_parameter' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'param_name','VARCHAR(255) NOT NULL', 'Tên tham số' FROM system_parameters.business_tables WHERE table_name='api_parameter' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'api_id','SERIAL', 'Tên API', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='api_parameter' and b.table_name='api' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'param_type','VARCHAR(50) NOT NULL', 'Kiểu dữ liệu' FROM system_parameters.business_tables WHERE table_name='api_parameter' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'is_required','BOOLEAN DEFAULT TRUE', 'Tham số có bắt buộc không' FROM system_parameters.business_tables WHERE table_name='api_parameter' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'description','TEXT', 'Mô tả tham số' FROM system_parameters.business_tables WHERE table_name='api_parameter' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='api_parameter' 
+and b.table_id=a.table_id and b.field_name='api_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='api_parameter' 
+and b.table_id=a.table_id and b.field_name='param_name';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Processing sheet: api_response
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('api_response', 'api_response', 'api_response')
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'response_id','SERIAL', 'ID duy nhất của phản hồi', true FROM system_parameters.business_tables WHERE table_name='api_response' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'code','INT NOT NULL', 'Mã phản hồi' FROM system_parameters.business_tables WHERE table_name='api_response' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'api_id','SERIAL', 'Tên API', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='api_response' and b.table_name='api' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'description','TEXT', 'Mô tả mã phản hồi' FROM system_parameters.business_tables WHERE table_name='api_response' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'format','JSONB', 'format phản hồi' FROM system_parameters.business_tables WHERE table_name='api_response' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='api_response' 
+and b.table_id=a.table_id and b.field_name='api_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='api_response' 
+and b.table_id=a.table_id and b.field_name='code';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Processing sheet: api_error
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description, is_archive, is_screen) VALUES ('api_error', 'api_error', 'api_error', true, false)
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'error_id','SERIAL', 'ID duy nhất của lỗi', true FROM system_parameters.business_tables WHERE table_name='api_error' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'code','VARCHAR(50) NOT NULL', 'Mã lỗi' FROM system_parameters.business_tables WHERE table_name='api_error' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'api_id','SERIAL', 'Tên API', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='api_error' and b.table_name='api' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'message','TEXT', 'Mô tả lỗi' FROM system_parameters.business_tables WHERE table_name='api_error' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'error_case','TEXT', 'Trường hợp xảy ra lỗi' FROM system_parameters.business_tables WHERE table_name='api_error' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='api_error' 
+and b.table_id=a.table_id and b.field_name='api_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='api_error' 
+and b.table_id=a.table_id and b.field_name='code';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Processing sheet: user_auth
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description) VALUES ('user_auth', 'user_auth', 'user_auth')
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'user_auth_id','SERIAL', 'ID duy nhất của cấu hình', true FROM system_parameters.business_tables WHERE table_name='user_auth' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'auth_data','JSONB NOT NULL', 'Dữ liệu xác thực' FROM system_parameters.business_tables WHERE table_name='user_auth' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên leader/follower', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='user_auth' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'security_company_id','SERIAL', 'Tên CTCK', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='user_auth' and b.table_name='security_company' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'updated_at','TIMESTAMP DEFAULT NOW()', 'Thời gian cập nhật' FROM system_parameters.business_tables WHERE table_name='user_auth' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='user_auth' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='user_auth' 
+and b.table_id=a.table_id and b.field_name='security_company_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Processing sheet: api_log
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description, is_archive, is_screen) VALUES ('api_log', 'api_log', 'api_log', true, false)
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'log_id','SERIAL', 'ID duy nhất của log', true FROM system_parameters.business_tables WHERE table_name='api_log' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên leader/follower', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='api_log' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'api_id','SERIAL', 'Liên kết với API', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='api_log' and b.table_name='api' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'status_code','INT', 'Mã trạng thái HTTP' FROM system_parameters.business_tables WHERE table_name='api_log' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'response_time_ms','INT', 'Thời gian phản hồi (ms)' FROM system_parameters.business_tables WHERE table_name='api_log' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'request_payload','JSONB', 'Payload gửi đi' FROM system_parameters.business_tables WHERE table_name='api_log' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'response_payload','JSONB', 'Payload phản hồi' FROM system_parameters.business_tables WHERE table_name='api_log' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='api_log' 
+and b.table_id=a.table_id and b.field_name='user_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_table_uniques(table_id, field_id)
+SELECT a.table_id,  b.field_id
+FROM system_parameters.business_tables a, system_parameters.business_fields b 
+WHERE a.table_name='api_log' 
+and b.table_id=a.table_id and b.field_name='api_id';
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Processing sheet: comment
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_tables (table_name, table_label, description, is_archive) VALUES ('comment', 'comment', 'comment', true)
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_primary_key)
+        SELECT table_id, 'comment_id','SERIAL', 'ID bình luận (duy nhất)', true FROM system_parameters.business_tables WHERE table_name='comment' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'content','TEXT', 'Nội dung bình luận' FROM system_parameters.business_tables WHERE table_name='comment' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'user_id','SERIAL', 'Tên leader/follower', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='comment' and b.table_name='user' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'afl_id','SERIAL', 'Tên thuật toán', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='comment' and b.table_name='afl' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description, is_foreign_key, referenced_table_id, referenced_field_id)
+        SELECT a.table_id, 'parent_id','SERIAL', 'Tên bình luận cha', true, b.table_id, c.field_id FROM system_parameters.business_tables a, system_parameters.business_tables b, system_parameters.business_fields c WHERE a.table_name='comment' and b.table_name='comment' and b.table_id=c.table_id and c.is_primary_key=true;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Executed: INSERT INTO system_parameters.business_fields(
+        table_id, field_name, field_type, description)
+        SELECT table_id, 'level','INT', 'Cấp độ của comment (e.g., 0 là comment gốc, 1+ là reply)' FROM system_parameters.business_tables WHERE table_name='comment' ;
+2025-02-10 20:57:21 Rows affected: 1
+2025-02-10 20:57:21 Processing complete for version: v1

@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: namenode-resourcemanager
+  namespace: bigdata   
+spec:
+  serviceName: namenode-resourcemanager
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hdfs-namenode-resourcemanager
+  template:
+    metadata:
+      labels:
+        app: hdfs-namenode-resourcemanager
+    spec:
+      initContainers:
+      - name: "chown"
+        image: apache/hadoop:3
+        command:
+        - /bin/bash
+        - -c
+        - chown -R hadoop:hadoop /data/hadoop &&
+          chmod g+s /data/hadoop
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: hadoop-data
+          mountPath: /data/hadoop
+      containers:
+      - name: namenode
+        image: apache/hadoop:3
+        ports:
+        - containerPort: 9870 # dfs.namenode.http-address
+          name: http-port
+        - containerPort: 8020 # dfs.namenode.rpc-address
+          name: rpc-port
+        command:
+        - "/bin/bash"
+        - "/tmp/hadoop-config/bootstrap.sh"
+        - "-d"
+        - "namenode"      
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+          allowPrivilegeEscalation: true
+          privileged: true          
+        volumeMounts:
+        - name: hadoop-data
+          mountPath: /data/hadoop
+        - name: hadoop-config-volume
+          mountPath: /tmp/hadoop-config
+      - name: resourcemanager
+        image: apache/hadoop:3
+        ports:
+        - containerPort: 8030 # yarn.resourcemanager.scheduler.address
+          name: scheduler-port
+        - containerPort: 8031 # yarn.resourcemanager.resource-tracker.address
+          name: tracker-port
+        - containerPort: 8032 # yarn.resourcemanager.address
+          name: app-port
+        - containerPort: 8033 # yarn.resourcemanager.admin.address
+          name: admin-port
+        - containerPort: 8088 # yarn.resourcemanager.webapp.address
+          name: http1-port
+        command:
+        - "/bin/bash"
+        - "/tmp/hadoop-config/bootstrap.sh"
+        - "-d"
+        - "resourcemanager"     
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+          allowPrivilegeEscalation: true
+          privileged: true          
+        volumeMounts:
+        - name: hadoop-data
+          mountPath: /data/hadoop
+        - name: hadoop-config-volume
+          mountPath: /tmp/hadoop-config
+      volumes:
+      - name: hadoop-data
+        persistentVolumeClaim:
+          claimName: hadoop-data
+      - name: hadoop-config-volume
+        configMap:
+          name: hadoop-config  
+  volumeClaimTemplates:
+  - metadata:
+      name: hadoop-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 50Gi
+      storageClassName: standard          

@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spark-history-server
+  namespace: bigdata
+  labels:
+    app: spark-history-server
+spec:
+  containers:
+  - name: spark-history-server
+    image: tuantahp/hadoop-spark:latest
+    command:
+    - /bin/bash
+    - -c
+    - /opt/spark/sbin/start-history-server.sh && tail -f /dev/null
+    ports:
+    - containerPort: 18080
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      allowPrivilegeEscalation: true
+      privileged: true
+    volumeMounts:
+    - name: hive-config-volume
+      mountPath: /opt/hadoop/etc/hadoop/hive-site.xml
+      subPath: hive-site.xml    
+    - name: hadoop-config-volume
+      mountPath: /opt/hadoop/etc/hadoop/core-site.xml
+      subPath: core-site.xml  
+    - name: hadoop-config-volume
+      mountPath: /opt/hadoop/etc/hadoop/hdfs-site.xml
+      subPath: hdfs-site.xml  
+    - name: hadoop-config-volume
+      mountPath: /opt/hadoop/etc/hadoop/yarn-site.xml
+      subPath: yarn-site.xml  
+    - name: hadoop-config-volume
+      mountPath: /opt/hadoop/etc/hadoop/mapred-site.xml
+      subPath: mapred-site.xml  
+    - name: spark-conf
+      mountPath: /opt/spark/conf/spark-defaults.conf
+      subPath: spark-defaults.conf
+    - name: my-pvc-volume
+      mountPath: /mnt/data  # Mount PVC vào đường dẫn trong Pod
+  volumes:
+  - name: spark-conf
+    configMap:
+      name: spark-config
+  - name: hadoop-config-volume
+    configMap:
+      name: hadoop-config  
+  - name: hive-config-volume
+    configMap:
+      name: hive-config                    
+  - name: my-pvc-volume
+    persistentVolumeClaim:
+      claimName: jar-pvc  # Tên PVC của bạn
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-history-server
+  namespace: bigdata
+  labels:
+    app: spark-history-server
+spec:
+  selector:
+    app: spark-history-server
+  ports:
+    - protocol: TCP
+      port: 18080
+      targetPort: 18080
+      name: webui
+  type: ClusterIP

@@ -1,0 +1,249 @@
+Chay thu tu install.bat
+TLS.KEY: mat khau key KemDate
+
+cd /opt/keycloak/conf
+keytool -genkeypair -alias localhost -keyalg RSA -keysize 2048 -validity 365 -keystore server.keystore -dname "cn=Server Administrator,o=Acme,c=GB" -keypass secret -storepass secret
+keytool -exportcert -alias localhost -file server.cer -keystore server.keystore -storepass secret
+export KEYCLOAK_ADMIN=admin
+export KEYCLOAK_ADMIN_PASSWORD=admin
+export JAVA_OPTS_APPEND="-Djgroups.tcp.port=7600 -Djgroups.dns.query=keycloak"
+/opt/keycloak/bin/kc.sh start --cache=ispn --cache-stack=kubernetes --db=postgres --db-url=jdbc:postgresql://postgresql-rw/app --db-username=app --db-password=secret99 --http-enabled=false --https-key-store-password=secret --hostname=localhost
+
+keytool -importcert -alias server -keystore path/to/java/lib/security/cacerts -file conf/server.crt
+
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout auth-tls.key -out auth-tls.crt -subj "/CN=auth.localtest.me/O=smartconsultor"
+
+openssl req -subj '/CN=localhost/O=Keycloak./C=VN' -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out certificate.pem
+kubectl create secret tls keycloak-tls-secret --cert certificate.pem --key key.pem
+
+kubectl create secret tls auth-tls-secret --key auth-tls.key --cert auth-tls.crt
+// kiem tra nhat ky tao pod cua kubelet
+journalctl -u kubelet --since "20 minutes ago" | grep -i error | tail -n 10
+journalctl -u kubelet -f
+minikube ssh --node minikube-m02
+ip addr show
+uname -a
+kubectl cluster-info dump
+kubectl config get-clusters
+kubectl config get-contexts
+kubectl config current-context
+kubectl config get-users
+// kiem tra quyen cua user dang nhap
+kubectl exec -it postgresql-1 -- whoami
+kubectl exec -it postgresql-1 -- id postgres
+kubectl exec -it postgresql-1 -- ls -ld /var/lib/postgresql
+
+// cai dat olm
+https://github.com/operator-framework/operator-lifecycle-manager/blob/master/doc/install/install.md
+
+//ignesss
+(Invoke-WebRequest -Uri "https://raw.githubusercontent.com/keycloak/keycloak-quickstarts/latest/kubernetes/keycloak-ingress.yaml").Content | `
+ForEach-Object { $_ -replace "KEYCLOAK_HOST", "keycloak.$((minikube ip).ToString()).nip.io" } | `
+kubectl create -f -
+
+$minikubeIp = (minikube ip).ToString()
+$KEYCLOAK_URL = "https://keycloak.$minikubeIp.nip.io"
+Write-Output ""
+Write-Output "Keycloak:                 $KEYCLOAK_URL"
+Write-Output "Keycloak Admin Console:   $($KEYCLOAK_URL)/admin"
+Write-Output "Keycloak Account Console: $($KEYCLOAK_URL)/realms/myrealm/account"
+Write-Output ""
+
+
+//without igness
+$minikubeIp = (minikube ip).ToString()
+$nodePort = (kubectl get services/keycloak -o go-template='{{(index .spec.ports 0).nodePort}}').ToString()
+$KEYCLOAK_URL = "https://${minikubeIp}:${nodePort}"
+
+Write-Output ""
+Write-Output "Keycloak:                 $KEYCLOAK_URL"
+Write-Output "Keycloak Admin Console:   $($KEYCLOAK_URL)/admin"
+Write-Output "Keycloak Account Console: $($KEYCLOAK_URL)/realms/myrealm/account"
+Write-Output ""
+
+
+scp docker@172.27.150.141:/var/lib/minikube/certs/ca.crt .\minikube-ca.crt
+
+
+// keycloak
+cd /opt/keycloak/bin
+./kcadm.sh config credentials --server https://localhost:8443 --realm master --user admin
+
+
+
+./kc.sh build
+/kc.sh start 
+
+curl --cacert /tmp/server.crt -d "client_id=admin-cli" -d "username=admin" -d "password=admin" -d "grant_type=password" "https://keycloak/realms/master/protocol/openid-connect/token"
+curl -H "Authorization: bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIxXzM1Vi1KelpNSzlWMEtqVkdtV0o0MnVZblpua2VrRGc0S3JYd0xGTmdJIn0.eyJleHAiOjE3MTIwNTI4ODcsImlhdCI6MTcxMjA1MjgyNywianRpIjoiZTdhYjJlZmEtYmRiYS00N2Y1LWI1ZjctOTg3Mjc5OGFmYTlkIiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3QvcmVhbG1zL21hc3RlciIsInN1YiI6IjlkYjM0N2M0LTlkMzQtNDQ3ZS1iNjJiLWYzOWY3ODI1YzRlNiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiJhYWZiNmQ0Yi1kYTk2LTQwYzAtOTA1Mi1kZGNlZTNkMjUxMjgiLCJhY3IiOiIxIiwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiYWFmYjZkNGItZGE5Ni00MGMwLTkwNTItZGRjZWUzZDI1MTI4IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.jCz0oEELXf63iGSC1qqTIXe3sF8XIb1dT3Sp4K8Km318kDRTRYnSnCleuepz00G4OHlTMcFCqdHLi_sWgcORbTS78zn4W9lpc1Ho0gBSroxUEsv-iSDVoUT2VMP4XZia2rA7gtVOplqaQ11YyKFqvOqJfqKt3a6d8sVLjxqnNVdSf_EInLDLDkV8LHRDJqZsP42n_oaMd3HIw1LLHTe9Uypusb13p9MJOCNOBNH8QjRzxj1mcArx6dIeh_xvpwDmqM12WHzQYJRFi7aoMp71xO414cdtPxl70Gu_lwKncj0ZL2O3DXsn9hzxm56gu2AlSTcasNas4_onrQD7mE0keg" "https://keycloak/admin/realms/master"
+
+
+kubectl create -f https://operatorhub.io/install/keycloak-operator.yaml
+kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.2/kubernetes/keycloaks.k8s.keycloak.org-v1.yml
+kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.2/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml
+kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.2/kubernetes/kubernetes.yml
+openssl req -subj '/CN=localhost/O=Keycloak./C=VN' -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out certificate.pem -config 'C:\Program Files\OpenSSL-Win64\bin\cnf\openssl.cnf'
+kubectl create secret tls keycloak-tls-secret --cert certificate.pem --key key.pem
+kubectl create secret generic keycloak-db-secret --from-literal=username=app --from-literal=password=secret99
+
+
+kubectl create -f https://operatorhub.io/install/edp-keycloak-operator.yaml
+helm repo add epamedp https://epam.github.io/edp-helm-charts/stable
+helm repo update
+helm search repo epamedp/keycloak-operator -l
+helm install keycloak-operator epamedp/keycloak-operator --version 1.20.0 --namespace default --set name=keycloak-operator
+
+
+cd /opt/keycloak/conf
+/usr/lib/jvm/java-17-openjdk-17.0.10.0.7-2.el9.x86_64/bin/keytool -genkeypair -alias localhost -keyalg RSA -keysize 2048 -validity 365 -keystore server.keystore -dname "cn=Server Administrator,o=Acme,c=GB" -keypass secret -storepass secret
+export KEYCLOAK_ADMIN=admin
+export KEYCLOAK_ADMIN_PASSWORD=admin
+export JAVA_OPTS_APPEND="-Djgroups.tcp.port=7600 -Djgroups.dns.query=keycloak"
+/opt/keycloak/bin/kc.sh start --cache=ispn --cache-stack=kubernetes --db=postgres --db-url=jdbc:postgresql://postgresql-rw/app --db-username=app --db-password=secret99 --http-enabled=false --https-key-store-password=secret --hostname=localhost
+
+
+kubectl create clusterrolebinding cluster-system-anonymous --clusterrole=cluster-admin --user=system:anonymous
+
+kubectl exec -it ignite-0 -- bash
+apk update
+apk add nmap nmap-scripts
+apk add curl
+APISERVER=https://kubernetes.default.svc.cluster.local:443
+SERVICEACCOUNT=/var/run/secrets/kubernetes.io/serviceaccount
+NAMESPACE=$(cat ${SERVICEACCOUNT}/namespace)
+TOKEN=$(cat ${SERVICEACCOUNT}/token)
+CACERT=${SERVICEACCOUNT}/ca.crt
+SERVICE_NAME=ignite
+curl --cacert ${CACERT} --header "Authorization: Bearer ${TOKEN}" -X GET ${APISERVER}/api/v1/namespaces/${NAMESPACE}/endpoints/${SERVICE_NAME}
+
+nmap --script ssl-enum-ciphers -p 443 kubernetes.default.svc.cluster.local
+
+istioctl ps frontend-deployment-685c4cc477-ngsq6
+istioctl proxy-config routes frontend-deployment-685c4cc477-ngsq6
+
+apt/yum  update 
+apt/yum  install net-tools
+netstat -tuln
+
+
+# google oauth2
+https://accounts.google.com/.well-known/openid-configuration
+
+#tạo client_id trên 
+https://console.cloud.google.com/
+
+#truy cap vao trình duyệt
+https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile&access_type=offline&include_granted_scopes=true&response_type=code&state=state_parameter_passthrough_value&redirect_uri=http://localhost&client_id=533670103-3iajdsvqgl70ampdmslspn6268gedbq6.apps.googleusercontent.com
+https://accounts.google.com/o/oauth2/v2/auth?scope=openid&access_type=offline&include_granted_scopes=true&response_type=code&state=state_parameter_passthrough_value&redirect_uri=http://localhost&client_id=533670103-3iajdsvqgl70ampdmslspn6268gedbq6.apps.googleusercontent.com
+#lấy code dán vào 
+curl -X POST -d "client_id=533670103-3iajdsvqgl70ampdmslspn6268gedbq6.apps.googleusercontent.com&client_secret=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&redirect_uri=http://localhost&grant_type=authorization_code&code=4%2F0AdLIrYemyit1jCU4nVL9jb4nm-LmZ73W0nxaiTrMnlz60ReboGJEGHEdo7v9uB5x0QsacQ" https://oauth2.googleapis.com/token
+
+# lấy thông tin user dựa trên access token
+curl -H "Authorization: Bearer ya29.a0AXooCguVKiHbH56AoxPK_yN969H9D2BKSIufRS-FbiooN_JMAQiPGPn2LWJyszbqNIT_5hYmmNnRnipGZKunnS90ybPtvlVR-YSJRzbx3hU4mAr3_3j1xUHR-jPE5-mVUHvHXQ4ISQIKffUcP-meXoqYPRoeA-uMc8iqaCgYKARASARASFQHGX2Mi1-pt5Q7rMlGESZsT6UDPhg0171" https://www.googleapis.com/oauth2/v2/userinfo
+
+# xác thực access token
+curl -H "Authorization: Bearer ya29.a0AXooCguVKiHbH56AoxPK_yN969H9D2BKSIufRS-FbiooN_JMAQiPGPn2LWJyszbqNIT_5hYmmNnRnipGZKunnS90ybPtvlVR-YSJRzbx3hU4mAr3_3j1xUHR-jPE5-mVUHvHXQ4ISQIKffUcP-meXoqYPRoeA-uMc8iqaCgYKARASARASFQHGX2Mi1-pt5Q7rMlGESZsT6UDPhg0171" https://www.googleapis.com/oauth2/v3/certs
+# lay thong tin tu id_token
+https://oauth2.googleapis.com/tokeninfo?id_token=
+
+# Thay các giá trị dưới đây bằng các giá trị thực tế của bạn
+CLIENT_ID="your_client_id"
+CLIENT_SECRET="your_client_secret"
+REFRESH_TOKEN="your_refresh_token"
+
+# Gửi yêu cầu đổi refresh token thành access token
+curl -d "client_id=533670103-3iajdsvqgl70ampdmslspn6268gedbq6.apps.googleusercontent.com&client_secret=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&refresh_token=1//0e0egDRaBgaMpCgYIARAAGA4SNwF-L9Irqkggs5ftWRBVbfEHyD3aDjoHm0Eix6e353Si5922I2gITp3HU2-kQVoLxpqttAii59E&grant_type=refresh_token" https://oauth2.googleapis.com/token
+
+#https://www.googleapis.com/oauth2/v1/certs
+docker create --name pulsar apachepulsar/pulsar:3.2.3
+docker cp standalone.conf pulsar:/pulsar/conf/standalone.conf
+docker cp google_oauth2_certs.pem pulsar:/pulsar/conf/google_oauth2_certs.pem
+docker commit pulsar pulsar:latest
+docker rm pulsar
+docker run -it --name pulsar -p 6650:6650 -p 8080:8080 pulsar:latest bin/pulsar standalone
+
+openssl s_client -showcerts -connect www.googleapis.com:443 | openssl x509 -outform PEM | Out-File -FilePath google_certs.pem -Encoding ascii
+
+
+# thay đổi max_map_count=65530
+minikube ssh
+sudo sysctl -w vm.max_map_count=524288
+echo 'vm.max_map_count=262144' | sudo tee -a /etc/sysctl.conf
+#login kibana
+kubectl exec -it elasticsearch-d86b5b4b5-r2rfj -- bin/elasticsearch-create-enrollment-token -s kibana
+kubectl exec -it kibana-b6f9985c6-lfwtz -- bin/kibana-verification-code
+
+
+1. Lấy thông tin realm-public-key
+Đăng nhập vào giao diện quản trị của Keycloak.
+Chọn realm mà bạn muốn lấy thông tin (ví dụ: master).
+Chọn Realm Settings từ menu bên trái.
+Chọn tab Keys.
+Ở mục Active, bạn sẽ thấy danh sách các keys. Chọn RSA (thường là loại mặc định) và sao chép giá trị của Public Key. Đây là giá trị realm-public-key.
+2. Lấy thông tin resource (Client ID)
+Trong giao diện quản trị của Keycloak, chọn realm của bạn (ví dụ: master).
+Chọn Clients từ menu bên trái.
+Chọn client mà bạn muốn lấy thông tin (ví dụ: 06bd4e91fadb).
+Trong tab Settings, bạn sẽ thấy trường Client ID. Đây là giá trị resource.
+3. Lấy thông tin secret
+Trong giao diện quản trị của Keycloak, chọn realm của bạn (ví dụ: master).
+Chọn Clients từ menu bên trái.
+Chọn client mà bạn muốn lấy thông tin (ví dụ: 06bd4e91fadb).
+Chọn tab Credentials.
+Bạn sẽ thấy giá trị Secret. Đây là giá trị secret.
+
+
+kubectl get pods --namespace kube-system -o json | jq '.items[] | {"name": .metadata.name, labels: .metadata.labels}'
+
+kubectl get pods --all-namespaces -o json | jq -r '.items[] | 
+{
+    namespace: .metadata.namespace, 
+    name: .metadata.name, 
+    containers: .spec.containers[]
+} | select(.namespace | contains(\"default\")) |
+{
+    name: .name,
+    requestsCpu: .containers.resources.requests.cpu,
+    requestsMemory: .containers.resources.requests.memory, 
+    limitsCpu: .containers.resources.limits.cpu,
+    limitsMemory: .containers.resources.limits.memory
+}'
+
+kubectl get pods --all-namespaces -o json | jq -r '.items[] | 
+                                                   select(.metadata.namespace==\"default\") |
+                                                   .metadata.namespace as $ns | 
+                                                   .metadata.name as $pod | 
+                                                   .spec.containers[] | 
+                                                   \"\($ns) \($pod) \(.resources.requests.cpu // \"0\") \(.resources.requests.memory // \"0\") \(.resources.limits.cpu // \"0\") \(.resources.limits.memory // \"0\")\"'
+
+kubectl top pods --all-namespaces --no-headers
+
+
+
+[gateway] 19.07.2024 02:44:24.236 [vert.x-eventloop-thread-1] INFO  com.smartconsultor.cluster.GatewayVerticle - principal: 
+{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhVmN2Zm9rOWhXZnJEVmJmaHk4elI0emc0OVRsWjU3bHJidzAyMnI3TkRJIn0.eyJleHAiOjE3MjEzNTcxMDcsImlhdCI6MTcyMTM1NzA0NywiYXV0aF90aW1lIjoxNzIxMzU3MDQ3LCJqdGkiOiIwYjZiY2ZkZC1jYmU4LTQwMjQtYmQxOC03NGRhNzUxNWY4ZDUiLCJpc3MiOiJodHRwOi8va2V5Y2xvYWsvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIyNDM5ZjEzNC1iZDEwLTQ1M2MtYWQ5MS00YWRiMGQ2MjhjN2UiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJ0ZXN0Iiwic2Vzc2lvbl9zdGF0ZSI6IjAzZTg1ODM0LTI0MGUtNGM3Zi1iYWExLWUyOGQyNDExYzYzYiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJ0ZXN0Ijp7InJvbGVzIjpbInBsYWNlX29yZGVycyJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiMDNlODU4MzQtMjQwZS00YzdmLWJhYTEtZTI4ZDI0MTFjNjNiIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJUcmFuIFR1YW4iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ0dWFudGEiLCJnaXZlbl9uYW1lIjoiVHJhbiIsImZhbWlseV9uYW1lIjoiVHVhbiIsImVtYWlsIjoidHVhbnRhMjAyMUBnbWFpbC5jb20ifQ.QYh0KJq-cmGnuv17SjTe0usmS_0HYpH2vMpbW_oh0B6tqyQnGWQnHn28g0NmMRp-uOZmcrCnF0kbAdViJ3MZEL9cuxbMCMMzv_4d97KD5KvzqbXivXL2yW5fTAXt2k2A3OoXuEhgpJNREBOfDJZYe0S03qW8kltohV8ShdSp2n6KGUEFO8YEF1pg-tO0VQ3hypRpQZhZ5m-LkH7qOt8_JMxk8KfIYsgGORHvyq2lVVaooLESsUbL7-MOyScO8CzNmu8fnJlB3AsHEV4zMQXehPBkItthTVpgKWgTsCl39wHgSaGaYxrzwtG-nA0bWTdRn-CVgbLmN9B4zj3Gm0Y5Dg"
+,"expires_in":60
+,"refresh_expires_in":1800
+,"refresh_token":"eyJhbGciOiJIUzUxMiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzNjAwZjYzMy1kMWUwLTQxNzctOTQ5MC1iMzVhZTc1MTcyYjQifQ.eyJleHAiOjE3MjEzNTg4NDcsImlhdCI6MTcyMTM1NzA0NywianRpIjoiMmJlYjAzZDItNTdjYi00YWY3LTk3MjgtOTcwOGQzNTY2N2JmIiwiaXNzIjoiaHR0cDovL2tleWNsb2FrL3JlYWxtcy9tYXN0ZXIiLCJhdWQiOiJodHRwOi8va2V5Y2xvYWsvcmVhbG1zL21hc3RlciIsInN1YiI6IjI0MzlmMTM0LWJkMTAtNDUzYy1hZDkxLTRhZGIwZDYyOGM3ZSIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJ0ZXN0Iiwic2Vzc2lvbl9zdGF0ZSI6IjAzZTg1ODM0LTI0MGUtNGM3Zi1iYWExLWUyOGQyNDExYzYzYiIsInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6IjAzZTg1ODM0LTI0MGUtNGM3Zi1iYWExLWUyOGQyNDExYzYzYiJ9.LSPLf0YD1C8L6aOYoeeJhAQDMNllYnegSUl5xvM1yNU3vFSgx_rbFfuVUBE6XF_vu5eWTN9tMEYnUkXXpNRENQ"
+,"token_type":"Bearer"
+,"not-before-policy":0
+,"session_state":"03e85834-240e-4c7f-baa1-e28d2411c63b"
+,"scope":"profile email"}
+[gateway] 19.07.2024 02:44:24.243 [vert.x-eventloop-thread-1] INFO  com.smartconsultor.cluster.GatewayVerticle - attributes: {
+[gateway]   "iat" : 1721357047,
+[gateway]   "exp" : 1721357107
+[gateway] }
+
+
+Port forwarding service/pulsar-grafana in namespace default, remote port 80 -> http://127.0.0.1:9080
+Port forwarding service/superset in namespace default, remote port 8088 -> http://127.0.0.1:8088
+Port forwarding service/gateway in namespace default, remote port 80 -> http://127.0.0.1:8080
+Port forwarding service/grafana in namespace istio-system, remote port 3000 -> http://127.0.0.1:3000
+Port forwarding service/kiali in namespace istio-system, remote port 20001 -> http://127.0.0.1:20001
+Port forwarding deployment/gateway-deployment in namespace default, remote port 5006 -> http://127.0.0.1:5006
+Port forwarding service/pulsar-pulsar-manager in namespace default, remote port 9527 -> http://127.0.0.1:9527
+Port forwarding deployment/account-deployment in namespace default, remote port 5005 -> http://127.0.0.1:5005
+Port forwarding service/pulsar-kube-prometheus-sta-prometheus in namespace default, remote port 9090 -> http://127.0.0.1:9090
+Port forwarding service/tracing in namespace istio-system, remote port 80 -> http://127.0.0.1:16686
+Port forwarding service/infinispan in namespace default, remote port 11222 -> http://127.0.0.1:11222
+Port forwarding service/keycloak in namespace default, remote port 80 -> http://127.0.0.1:80

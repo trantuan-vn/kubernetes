@@ -1,0 +1,34 @@
+{{- if and (.Capabilities.APIVersions.Has "monitoring.coreos.com/v1/ServiceMonitor") (or (not .Values.deploy.monitoring) .Values.deploy.monitoring.enabled) }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "infinispan-helm-charts.name" . }}
+  annotations:
+  {{- include "infinispan-helm-charts.annotations" . | nindent 4 }}
+  labels:
+    app: infinispan-service-metrics
+  {{- include "infinispan-helm-charts.labels" . | nindent 4 }}
+  {{- include "infinispan-helm-charts.svcLabels" . | nindent 4 }}
+spec:
+  endpoints:
+    - basicAuth:
+        password:
+          key: password
+          name: {{ include "infinispan-helm-charts.secret" . }}
+        username:
+          key: username
+          name: {{ include "infinispan-helm-charts.secret" . }}
+      port: infinispan-met
+      path: /metrics
+      scheme: http
+      interval: 30s
+      scrapeTimeout: 10s
+      honorLabels: true
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app: infinispan-service-metrics
+      clusterName: {{ include "infinispan-helm-charts.name" . }}
+{{- end }}

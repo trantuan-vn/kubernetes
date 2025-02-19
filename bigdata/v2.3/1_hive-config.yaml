@@ -1,0 +1,106 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hive-config
+  namespace: bigdata 
+data:
+  hive-site.xml: |
+    <?xml version="1.0"?>
+    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+    <configuration>
+      # /tmp tren hdfs
+      <property>
+          <name>hive.exec.scratchdir</name>
+          <value>/user/hive/warehouse/tmp/hive</value>
+      </property>      
+      <property>
+          <name>hive.scratch.dir.permission</name>
+          <value>733</value>
+      </property>      
+      # web log 
+      <property>
+        <name>hive.server2.webui.explain.output</name>
+        <value>true</value>
+      </property>
+      <property>
+        <name>hive.server2.historic.operation.log.enabled</name>
+        <value>true</value>
+      </property>
+      <property>
+        <name>hive.server2.webui.max.historic.queries</name>
+        <value>25</value>
+      </property>                
+      # ket noi toi metastore, hadoop
+      <property>
+        <name>hive.server2.enable.doAs</name>
+        <value>true</value>
+      </property>    
+      <property> 
+        <name>hive.metastore.event.db.notification.api.auth</name> 
+        <value>false</value>
+      </property> 
+      #Tích hợp với Hive Metastore
+      <property>
+        <name>hive.metastore.uris</name>
+        <value>thrift://metastore:9083</value>
+      </property>
+      <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>jdbc:postgresql://citus-master.citus.svc.cluster.local:5432/metastore</value>
+      </property>
+      <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>org.postgresql.Driver</value>
+      </property>
+      <property>
+        <name>javax.jdo.option.ConnectionUserName</name>
+        <value>smartconsultor</value>
+      </property>
+      <property>
+        <name> javax.jdo.option.ConnectionPassword</name>
+        <value>secret99</value>
+      </property>
+      # warehouse hdfs
+      <property>
+        <name>hive.metastore.warehouse.dir</name>
+        <value>hdfs://namenode-resourcemanager:8020/user/hive/warehouse</value>
+      </property>
+      # zookeeper
+      <property>
+        <name>hive.zookeeper.quorum</name>
+        <value>zookeeper-0.zookeeper.zookeeper.svc.cluster.local:2181,zookeeper-1.zookeeper.zookeeper.svc.cluster.local:2181,zookeeper-2.zookeeper.zookeeper.svc.cluster.local:2181</value>
+      </property>
+      # toi uu truy van tai hive
+      <property>
+          <name>hive.exec.parallel</name>
+          <value>true</value>
+          <description>Cho phép thực thi song song các tác vụ, giúp tăng tốc độ truy vấn.</description>
+      </property>    
+      <property>
+          <name>hive.compactor.initiator.on</name>
+          <value>false</value>
+          <description>Kích hoạt compaction từ HiveServer.</description>
+      </property>
+      <property>
+          <name>hive.compactor.worker.threads</name>
+          <value>1</value>
+          <description>Số lượng luồng để thực hiện công việc compaction trên HiveServer.</description>
+      </property>
+      <property>
+          <name>hive.support.concurrency</name>
+          <value>true</value>
+          <description>Bật khả năng đồng thời (concurrency) trong HiveServer.</description>
+      </property>
+      <property>
+          <name>hive.exec.dynamic.partition</name>
+          <value>true</value>
+      </property>
+      <property>
+          <name>hive.exec.dynamic.partition.mode</name>
+          <value>nonstrict</value>
+      </property>
+      <property>
+          <name>hive.enforce.bucketing</name>
+          <value>true</value>
+      </property>      
+    </configuration>

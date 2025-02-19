@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: namenode-resourcemanager
+  namespace: bigdata   
+spec:
+  clusterIP: None
+  selector:
+    app: hdfs-namenode-resourcemanager
+  ports:
+  - protocol: TCP
+    port: 9870
+    targetPort: 9870
+    name: http-port
+  - protocol: TCP
+    port: 8020
+    targetPort: 8020
+    name: rpc-port      
+  - protocol: TCP
+    port: 8030
+    targetPort: 8030
+    name: scheduler-port  
+  - protocol: TCP
+    port: 8031
+    targetPort: 8031
+    name: tracker-port  
+  - protocol: TCP
+    port: 8032
+    targetPort: 8032
+    name: app-port
+  - protocol: TCP
+    port: 8033
+    targetPort: 8033
+    name: admin-port      
+  - protocol: TCP
+    port: 8088
+    targetPort: 8088
+    name: http1-port

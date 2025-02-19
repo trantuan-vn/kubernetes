@@ -1,0 +1,162 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hadoop-config
+  namespace: bigdata 
+data:
+  core-site.xml: |
+    <?xml version="1.0"?>
+    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+    <configuration>
+      <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://namenode-resourcemanager:8020</value>
+      </property> 
+      <property>
+        <name>hadoop.tmp.dir</name>
+        <value>/data/hadoop</value>
+      </property>  
+      <property>
+        <name>hadoop.proxyuser.hadoop.hosts</name>
+        <value>*</value>
+      </property>
+      <property>
+        <name>hadoop.proxyuser.hadoop.groups</name>
+        <value>*</value>
+      </property>
+    </configuration>
+  hdfs-site.xml: |
+    <?xml version="1.0"?>
+    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+    <configuration>
+      <property>
+        <name>dfs.namenode.rpc-address</name>
+        <value>namenode-resourcemanager:8020</value>
+      </property>      
+      <property>
+        <name>dfs.replication</name>
+        <value>3</value>
+      </property>
+      <property>
+          <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
+          <value>false</value>
+      </property>
+      <property>
+          <name>dfs.namenode.rpc-bind-host</name>
+          <value>0.0.0.0</value>
+      </property>
+      <property>
+          <name>dfs.namenode.servicerpc-bind-host</name>
+          <value>0.0.0.0</value>
+      </property>
+    </configuration>
+  yarn-site.xml: |
+    <?xml version="1.0"?>
+    <configuration>
+      <property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>namenode-resourcemanager</value>
+      </property>
+      <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>        
+      </property>
+      <property>
+        <name>yarn.nodemanager.resource.detect-hardware-capabilities</name>
+        <value>true</value>
+      </property>
+    </configuration>
+  mapred-site.xml: |
+    <?xml version="1.0"?>
+    <configuration>
+      <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+      </property>
+    </configuration>
+  hadoop-http-auth-signature-secret: |
+    secret99
+  bootstrap.sh: |
+    #!/bin/bash
+    : ${HADOOP_HOME:=/opt/hadoop}
+    . $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+    # Directory to find config artifacts
+    CONFIG_DIR="/tmp/hadoop-config"
+    # Copy config files from volume mount
+    for f in core-site.xml hdfs-site.xml; do
+        if [[ -e ${CONFIG_DIR}/$f ]]; then
+          cp ${CONFIG_DIR}/$f $HADOOP_HOME/etc/hadoop/$f
+        else
+          echo "ERROR: Could not find $f in $CONFIG_DIR"
+        exit 1
+        fi
+    done
+    # copy hadoop-http-auth-signature-secret
+    cp ${CONFIG_DIR}/hadoop-http-auth-signature-secret $HADOOP_HOME/hadoop-http-auth-signature-secret    
+    # installing libraries if any - (resource urls added comma separated to the ACP system variable)
+    cd $HADOOP_HOME/share/hadoop/common ; for cp in ${ACP//,/ }; do  echo == $cp; curl -LO $cp ; done; cd -
+    if [[ $2 == "namenode" ]]; then
+        # dfs.namenode.name.dir
+        if [ ! -d "/data/hadoop/dfs/name" ]; then
+          mkdir -p /data/hadoop/dfs/name
+          $HADOOP_HOME/bin/hdfs namenode -format -force -nonInteractive
+        fi
+        $HADOOP_HOME/sbin/hadoop-daemon.sh start namenode
+    fi
+    if [[ $2 == "datanode" ]]; then
+        # dfs.datanode.data.dir
+        if [ ! -d "/data/hadoop/dfs/data" ]; then
+          mkdir -p /data/hadoop/dfs/data
+        fi
+        $HADOOP_HOME/sbin/hadoop-daemon.sh start datanode
+    fi
+    # Start ResourceManager
+    if [[ $2 == "resourcemanager" ]]; then
+        . $HADOOP_HOME/etc/hadoop/yarn-env.sh
+
+        # yarn.resourcemanager.fs.state-store.uri
+        if [ ! -d "/data/hadoop/yarn/system/rmstore" ]; then
+          mkdir -p /data/hadoop/yarn/system/rmstore
+        fi    
+        # yarn.scheduler.configuration.fs.path
+        if [ ! -d "/data/hadoop/yarn/system/schedconf" ]; then
+          mkdir -p /data/hadoop/yarn/system/schedconf
+        fi 
+        # Copy config files from volume mount
+        for f in mapred-site.xml; do
+            if [[ -e ${CONFIG_DIR}/$f ]]; then
+              cp ${CONFIG_DIR}/$f $HADOOP_HOME/etc/hadoop/$f
+            else
+              echo "ERROR: Could not find $f in $CONFIG_DIR"
+            exit 1
+            fi
+        done
+
+        $HADOOP_HOME/sbin/yarn-daemon.sh start resourcemanager                   
+
+    fi
+    # Start NodeManager with ResourceManager check
+    if [[ $2 == "nodemanager" ]]; then
+        . $HADOOP_HOME/etc/hadoop/yarn-env.sh
+
+        # yarn.nodemanager.local-dirs
+        if [ ! -d "/data/hadoop/nm-local-dir" ]; then
+          mkdir -p /data/hadoop/nm-local-dir
+        fi
+        # Copy config files from volume mount
+        for f in mapred-site.xml yarn-site.xml; do
+            if [[ -e ${CONFIG_DIR}/$f ]]; then
+              cp ${CONFIG_DIR}/$f $HADOOP_HOME/etc/hadoop/$f
+            else
+              echo "ERROR: Could not find $f in $CONFIG_DIR"
+            exit 1
+            fi
+        done
+        
+        $HADOOP_HOME/sbin/yarn-daemon.sh start nodemanager
+    fi    
+    if [[ $1 == "-d" ]]; then
+        until find ${HADOOP_LOG_DIR} -mmin -1 | egrep -q '.*'; echo "'date': Waiting for logs..." ; do sleep 2 ; done
+        tail -F ${HADOOP_LOG_DIR}/* &
+        while true; do sleep 1000; done
+    fi
