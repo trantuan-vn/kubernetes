@@ -247,7 +247,7 @@ args: []
 
 ## @param replicaCount Number of ZooKeeper nodes
 ##
-replicaCount: 1
+replicaCount: 3
 ## @param revisionHistoryLimit The number of old history to retain to allow rollback
 ##
 revisionHistoryLimit: 10
