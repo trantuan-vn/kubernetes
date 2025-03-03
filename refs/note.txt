@@ -218,8 +218,6 @@ kubectl get pods --all-namespaces -o json | jq -r '.items[] |
 
 kubectl top pods --all-namespaces --no-headers
 
-
-
 [gateway] 19.07.2024 02:44:24.236 [vert.x-eventloop-thread-1] INFO  com.smartconsultor.cluster.GatewayVerticle - principal: 
 {"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhVmN2Zm9rOWhXZnJEVmJmaHk4elI0emc0OVRsWjU3bHJidzAyMnI3TkRJIn0.eyJleHAiOjE3MjEzNTcxMDcsImlhdCI6MTcyMTM1NzA0NywiYXV0aF90aW1lIjoxNzIxMzU3MDQ3LCJqdGkiOiIwYjZiY2ZkZC1jYmU4LTQwMjQtYmQxOC03NGRhNzUxNWY4ZDUiLCJpc3MiOiJodHRwOi8va2V5Y2xvYWsvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIyNDM5ZjEzNC1iZDEwLTQ1M2MtYWQ5MS00YWRiMGQ2MjhjN2UiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJ0ZXN0Iiwic2Vzc2lvbl9zdGF0ZSI6IjAzZTg1ODM0LTI0MGUtNGM3Zi1iYWExLWUyOGQyNDExYzYzYiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJ0ZXN0Ijp7InJvbGVzIjpbInBsYWNlX29yZGVycyJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiMDNlODU4MzQtMjQwZS00YzdmLWJhYTEtZTI4ZDI0MTFjNjNiIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJUcmFuIFR1YW4iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ0dWFudGEiLCJnaXZlbl9uYW1lIjoiVHJhbiIsImZhbWlseV9uYW1lIjoiVHVhbiIsImVtYWlsIjoidHVhbnRhMjAyMUBnbWFpbC5jb20ifQ.QYh0KJq-cmGnuv17SjTe0usmS_0HYpH2vMpbW_oh0B6tqyQnGWQnHn28g0NmMRp-uOZmcrCnF0kbAdViJ3MZEL9cuxbMCMMzv_4d97KD5KvzqbXivXL2yW5fTAXt2k2A3OoXuEhgpJNREBOfDJZYe0S03qW8kltohV8ShdSp2n6KGUEFO8YEF1pg-tO0VQ3hypRpQZhZ5m-LkH7qOt8_JMxk8KfIYsgGORHvyq2lVVaooLESsUbL7-MOyScO8CzNmu8fnJlB3AsHEV4zMQXehPBkItthTVpgKWgTsCl39wHgSaGaYxrzwtG-nA0bWTdRn-CVgbLmN9B4zj3Gm0Y5Dg"
 ,"expires_in":60
@@ -234,6 +232,59 @@ kubectl top pods --all-namespaces --no-headers
 [gateway]   "exp" : 1721357107
 [gateway] }
 
+giải mã access_token
+{
+  "alg": "RS256",
+  "typ": "JWT",
+  "kid": "aVcvvfok9hWfrDVbfhy8zR4zg49TLZ57lrbw022r7NDI"
+}
+{
+  "exp": 1721357107,
+  "iat": 1721357047,
+  "auth_time": 1721357047,
+  "jti": "0b6bcfdd-cbe8-4024-bd18-74da7515f8d5",
+  "iss": "http://keycloak/realms/master",
+  "aud": "account",
+  "sub": "2439f134-bd10-453c-ad91-4adb0d628c7e",
+  "typ": "Bearer",
+  "azp": "test",
+  "session_state": "03e85834-240e-4c7f-baa1-e28d2411c63b",
+  "acr": "1",
+  "allowed-origins": [
+    ""
+  ],
+  "realm_access": {
+    "roles": [
+      "default-roles-master",
+      "offline_access",
+      "uma_authorization"
+    ]
+  },
+  "resource_access": {
+    "test": {
+      "roles": [
+        "place_orders"
+      ]
+    },
+    "account": {
+      "roles": [
+        "manage-account",
+        "manage-account-links",
+        "view-profile"
+      ]
+    }
+  },
+  "scope": "profile email",
+  "sid": "03e85834-240e-4c7f-baa1-e28d2411c63b",
+  "email_verified": true,
+  "name": "Tran Tuan",
+  "preferred_username": "tuanta",
+  "given_name": "Tran",
+  "family_name": "Tuan",
+  "email": "tuanta2021@gmail.com"
+}
+
+
 
 Port forwarding service/pulsar-grafana in namespace default, remote port 80 -> http://127.0.0.1:9080
 Port forwarding service/superset in namespace default, remote port 8088 -> http://127.0.0.1:8088
@@ -247,3 +298,20 @@ Port forwarding service/pulsar-kube-prometheus-sta-prometheus in namespace defau
 Port forwarding service/tracing in namespace istio-system, remote port 80 -> http://127.0.0.1:16686
 Port forwarding service/infinispan in namespace default, remote port 11222 -> http://127.0.0.1:11222
 Port forwarding service/keycloak in namespace default, remote port 80 -> http://127.0.0.1:80
+
+curl -X POST "https://auth.smartconsultor.com/realms/master/protocol/openid-connect/token" \
+     --cacert /Users/cunkem/backend/gateway/src/main/resources/ca.crt \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "client_id=test" \
+     -d "client_secret=eeC9YoPbjQoS8xVifHnQaIAxXCQZqyH9" \
+     -d "grant_type=password" \
+     -d "username=admin" \
+     -d "password=admin123"
+
+
+drop database keycloak; 
+(fail)
+-->
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE datname = 'keycloak';

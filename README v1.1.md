@@ -1,6 +1,7 @@
 # k8s
 #1.minikube
 minikube start --memory=32768 --cpus=4 --disk-size=100g
+minikube addons enable metrics-server
 #2.istio (istio-system)
 istioctl install  
 #3. tạo các namespace
@@ -15,8 +16,6 @@ kubectl create namespace superset
 kubectl create namespace bigdata
 kubectl create namespace zookeeper
 kubectl create namespace ignite
-
-
 
 #4. tạo các serviceaccount
 kubectl create serviceaccount cert-manager-controller -n cert-manager
@@ -70,20 +69,117 @@ SELECT * FROM citus_get_active_worker_nodes();
 ALTER SYSTEM SET citus.shard_replication_factor TO 2;
 SELECT pg_reload_conf();
 
-#7 keycloak
+#7 echo Waiting for cert-manager to be installed...
+helm repo add jetstack https://charts.jetstack.io --force-update
+helm repo update
+helm search repo jetstack
+helm pull jetstack/cert-manager --version 1.15.1 
+helm install cert-manager ./cert-manager --namespace cert-manager --create-namespace --version v1.15.1 --set crds.enabled=true
+
+#8 keycloak
 cd ~/SmartConsultor/microservices/k8s 
 kubectl apply -f 0_cert.yaml 
 base64_data=$(kubectl get secret smartconsultor-certificate-tls -n istio-system -o jsonpath="{.data['ca\.crt']}")
-echo $base64_data | base64 --decode > ca.crt
-helm install keycloak .\keycloak --namespace istio-system
-sudo nano /etc/hosts #127.0.0.1 auth.smartconsultor.com
-sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
-
-#8 infinispan
-helm install infinispan ./infinispan --namespace infinispan
-#9 microservices
-sudo kubectl port-forward svc/keycloak 443:443 -n keycloak  --address 192.168.220.190
+echo $base64_data | base64 --decode > ca.crt (dua file nay vao trinh duyet vùng trust certificates để test)
+kubectl apply -f /Users/cunkem/kubernetes/keycloak/other/jar_pvc.yaml
+kubectl apply -f /Users/cunkem/kubernetes/keycloak/other/copy_pod.yaml
+mvn clean package (device-management)
+kubectl cp /Users/cunkem/utility/device-management/target/device-management-1.0-SNAPSHOT.jar copy-pod:/mnt/data -n keycloak
+kubectl cp /Users/cunkem/kubernetes/keycloak/other/device-theme copy-pod:/mnt/data -n keycloak
+helm uninstall keycloak -n keycloak
+helm install keycloak /Users/cunkem/kubernetes/keycloak --namespace keycloak
+sudo kubectl port-forward svc/keycloak 443:443 -n keycloak --address $(ipconfig getifaddr en0)
+sudo sed -i '' "/auth.smartconsultor.com/c\\
+$(ipconfig getifaddr en0) auth.smartconsultor.com\\
+" /etc/hosts
 sudo minikube tunnel
+trong /etc/hosts them dong "127.0.0.1 smartconsultor.com"
+
+# thiet lap gia tri trong docker.json: 
+1. Lấy thông tin realm-public-key
+Đăng nhập vào giao diện quản trị của Keycloak.
+Chọn realm mà bạn muốn lấy thông tin (ví dụ: master).
+Chọn Realm Settings từ menu bên trái.
+Chọn tab Keys.
+Ở mục Active, bạn sẽ thấy danh sách các keys. Chọn RS256 (thường là loại mặc định) và sao chép giá trị của Public Key. Đây là giá trị realm-public-key.
+2. Lấy thông tin resource (Client ID)
+Trong giao diện quản trị của Keycloak, chọn realm của bạn (ví dụ: master).
+Chọn Clients từ menu bên trái.
+Chọn client mà bạn muốn lấy thông tin (ví dụ: 06bd4e91fadb).
+Trong tab Settings, bạn sẽ thấy trường Client ID. Đây là giá trị resource.
+3. Lấy thông tin secret
+Trong giao diện quản trị của Keycloak, chọn realm của bạn (ví dụ: master).
+Chọn Clients từ menu bên trái.
+Chọn client mà bạn muốn lấy thông tin (ví dụ: 06bd4e91fadb).
+Chọn tab Credentials.
+Bạn sẽ thấy giá trị Secret. Đây là giá trị secret.
+
+# Thiết lập url trên keycloak
+Trong giao diện client , chọn client để kết nối (test)
+Tại màn hinh setting: set 
+- Valid redirect URIs bằng https://smartconsultor.com/callback (trùng với callback_url trong docker.json)
+- Web origins bằng https://smartconsultor.com
+
+# Thiết lập preferred_username
+Trong giao diện client , chọn client để kết nối (test)
+chọn tab client scope
+chọn test-dedicated
+chọn add mapper by configuration
+chọn User Attributes
+type name : preferred_username
+chọn  User Attribute : username
+type Token Claim Name: preferred_username
+save
+# google auth2 với keycloak
+## lấy clientid, clientsecret trong google để tích hợp với google auth2
+🔹 Bước 1: Truy cập Google Cloud Console
+Mở Google Cloud Console: https://console.cloud.google.com/
+Đăng nhập bằng tài khoản Google của bạn.
+🔹 Bước 2: Chọn hoặc tạo một dự án
+Ở góc trên cùng bên trái, nhấp vào danh sách dự án và chọn một dự án có OAuth2 đã được cấu hình.
+Nếu chưa có, nhấp vào Tạo dự án mới và làm theo hướng dẫn.
+🔹 Bước 3: Truy cập phần OAuth2 Credentials
+Trong menu bên trái, chọn API & Services → Credentials.
+Trong phần OAuth 2.0 Client IDs, bạn sẽ thấy danh sách các Client ID đã tạo.
+Nếu chưa có, nhấp vào Create Credentials → chọn OAuth client ID.
+Chọn loại ứng dụng (Web, Android, iOS, hoặc Desktop).
+Điền thông tin cần thiết:
+- Authorized JavaScript origins: https://auth.smartconsultor.com
+- Authorized redirect URIs: https://auth.smartconsultor.com/realms/master/broker/google/endpoint
+nhấp Create.
+🔹 Bước 4: Lấy Client ID
+Sau khi tạo, bạn sẽ thấy Client ID hiển thị ngay trên màn hình.
+Bạn cũng có thể nhấp vào tên của OAuth Client để xem chi tiết Client ID & Client Secret.
+## setting
+vào màn hình Identity providers
+chon google
+điền Client ID & Client Secret của google
+điền Scopes=openid profile email
+chon tab mapper
+add mapper
+type name : preferred_username
+chọn  User Attribute : username
+save
+# thiet lap theme
+Chọn Realm Settings từ menu bên trái
+Chọn tab Themes
+Chọn Login theme là device-theme
+save
+# thiet lap authentication
+Chọn Authentication từ menu bên trái
+tại tab Flows: duplicate browser dat ten CustomDeviceFlow
+add step : Custom Device Verification
+add step : Conditional OTP Form
+tại man hình flow, ấn ... tại CustomDeviceFlow chọn bind flow, chọn Browser flow
+
+
+
+
+
+
+
+#9 infinispan
+helm install infinispan ./infinispan --namespace infinispan
 
 #10 pulsar
 -- citus for pulsar
@@ -168,6 +264,19 @@ kubectl exec -n ignite ignite-1 -- /opt/ignite/apache-ignite/bin/control.sh --ac
 kubectl exec -n ignite ignite-0 -- /opt/ignite/apache-ignite/bin/control.sh --state  --user ignite --password ignite
 kubectl exec -it -n ignite ignite-0 -- bash
 ./apache-ignite/bin/sqlline.sh --verbose=true -u jdbc:ignite:thin://127.0.0.1:10800/ -n ignite -p ignite 
+
+#16 echo Waiting for microservices to be installed...
+cd ./frontend
+flutter build web
+#copy vào thư mục buid/web tới src/main/resources/webroot (gateway project)
+#vào main.dart.js thay :
+#https://www.gstatic.com/flutter-canvaskit/3f3e560236539b7e2702f5ac790b2a4691b32d49/ thay bằng canvaskit/
+#https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5WZLCzYlKw.ttf thành assets/fonts/KFOmCnqEu92Fr1Me5WZLCzYlKw.ttf (trc do download file va copy vào thu muc assets/fonts)
+
+cd ./backend
+skaffold dev
+#skaffold delete
+kubectl port-forward service/gateway 8080:80
 
 # tao bang va data ban dau
 ## chay tren terminal

@@ -118,6 +118,12 @@ spec:
         {{- if .Values.initContainers }}
         {{- include "common.tplvalues.render" (dict "value" .Values.initContainers "context" $) | nindent 8 }}
         {{- end }}
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 1001:0 /mnt/data"]
+          volumeMounts:
+            - name: jar-pvc-volume
+              mountPath: /mnt/data        
       {{- end }}
       containers:
         - name: keycloak
@@ -317,6 +323,12 @@ spec:
         {{- if .Values.sidecars }}
         {{- include "common.tplvalues.render" ( dict "value" .Values.sidecars "context" $) | nindent 8 }}
         {{- end }}
+            - name: jar-pvc-volume
+              mountPath: /opt/bitnami/keycloak/providers/device-management-1.0-SNAPSHOT.jar
+              subPath: device-management-1.0-SNAPSHOT.jar  
+            - name: jar-pvc-volume
+              mountPath: /opt/bitnami/keycloak/themes/device-theme
+              subPath: device-theme    
       volumes:
         - name: empty-dir
           emptyDir: {}
@@ -345,3 +357,6 @@ spec:
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes "context" $) | nindent 8 }}
         {{- end }}
+        - name: jar-pvc-volume
+          persistentVolumeClaim:
+            claimName: jar-pvc  

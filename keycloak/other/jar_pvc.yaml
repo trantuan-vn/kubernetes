@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jar-pvc
+  namespace: keycloak
+spec:
+  accessModes:
+    - ReadWriteOnce  # Chế độ truy cập
+  resources:
+    requests:
+      storage: 5Gi  # Kích thước yêu cầu
+  storageClassName: standard  # Tên StorageClass
