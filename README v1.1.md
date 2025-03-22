@@ -92,6 +92,10 @@ cd ~/utility/keycloak-spi-trusted-device/spi
 mvn clean package (spi-trusted-device)
 kubectl cp /Users/cunkem/utility/keycloak-spi-trusted-device/spi/target/keycloak-spi-trusted-device-1.0-SNAPSHOT.jar copy-pod:/mnt/data -n keycloak
 
+cd ~/utility/keycloak-2fa-sms-authenticator
+mvn clean package 
+kubectl cp /Users/cunkem/utility/keycloak-2fa-sms-authenticator/target/dasniko.keycloak-2fa-sms-authenticator.jar copy-pod:/mnt/data -n keycloak
+
 helm uninstall keycloak -n keycloak
 helm install keycloak /Users/cunkem/kubernetes/keycloak --namespace keycloak
 sudo kubectl port-forward svc/keycloak 443:443 -n keycloak --address $(ipconfig getifaddr en0)

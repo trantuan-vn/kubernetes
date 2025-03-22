@@ -315,3 +315,20 @@ drop database keycloak;
 SELECT pg_terminate_backend(pid)
 FROM pg_stat_activity
 WHERE datname = 'keycloak';
+
+tk: tuanta2021@gmail.com tren deepseek
+curl https://api.deepseek.com/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer sk-3468d56f5d054f949ad2ba51da6ef48d" \
+  -d '{
+        "model": "deepseek-chat",
+        "messages": [
+          {"role": "system", "content": "You are a helpful assistant."},
+          {"role": "user", "content": "Hello!"}
+        ],
+        "stream": false
+      }'
+
+https://huggingface.co/deepseek-ai/DeepSeek-R1
+
+https://coinmarketcap.com

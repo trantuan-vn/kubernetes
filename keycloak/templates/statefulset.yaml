@@ -332,6 +332,9 @@ spec:
             - name: jar-pvc-volume
               mountPath: /opt/bitnami/keycloak/providers/keycloak-spi-trusted-device-1.0-SNAPSHOT.jar
               subPath: keycloak-spi-trusted-device-1.0-SNAPSHOT.jar  
+            - name: jar-pvc-volume
+              mountPath: /opt/bitnami/keycloak/providers/dasniko.keycloak-2fa-sms-authenticator.jar
+              subPath: dasniko.keycloak-2fa-sms-authenticator.jar  
       volumes:
         - name: empty-dir
           emptyDir: {}
