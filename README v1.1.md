@@ -76,16 +76,22 @@ helm search repo jetstack
 helm pull jetstack/cert-manager --version 1.15.1 
 helm install cert-manager ./cert-manager --namespace cert-manager --create-namespace --version v1.15.1 --set crds.enabled=true
 
-#8 keycloak
+#8 keycloak (FIDO2: https://www.youtube.com/watch?v=VAP4mc6R1Do)
 cd ~/SmartConsultor/microservices/k8s 
 kubectl apply -f 0_cert.yaml 
 base64_data=$(kubectl get secret smartconsultor-certificate-tls -n istio-system -o jsonpath="{.data['ca\.crt']}")
 echo $base64_data | base64 --decode > ca.crt (dua file nay vao trinh duyet vùng trust certificates để test)
 kubectl apply -f /Users/cunkem/kubernetes/keycloak/other/jar_pvc.yaml
 kubectl apply -f /Users/cunkem/kubernetes/keycloak/other/copy_pod.yaml
+cd ~/utility/device-management 
 mvn clean package (device-management)
 kubectl cp /Users/cunkem/utility/device-management/target/device-management-1.0-SNAPSHOT.jar copy-pod:/mnt/data -n keycloak
 kubectl cp /Users/cunkem/kubernetes/keycloak/other/device-theme copy-pod:/mnt/data -n keycloak
+
+cd ~/utility/keycloak-spi-trusted-device/spi 
+mvn clean package (spi-trusted-device)
+kubectl cp /Users/cunkem/utility/keycloak-spi-trusted-device/spi/target/keycloak-spi-trusted-device-1.0-SNAPSHOT.jar copy-pod:/mnt/data -n keycloak
+
 helm uninstall keycloak -n keycloak
 helm install keycloak /Users/cunkem/kubernetes/keycloak --namespace keycloak
 sudo kubectl port-forward svc/keycloak 443:443 -n keycloak --address $(ipconfig getifaddr en0)
@@ -171,6 +177,15 @@ tại tab Flows: duplicate browser dat ten CustomDeviceFlow
 add step : Custom Device Verification
 add step : Conditional OTP Form
 tại man hình flow, ấn ... tại CustomDeviceFlow chọn bind flow, chọn Browser flow
+# thiet lap email
+
+
+# thiet lap login 
+Chọn Realm Settings từ menu bên trái
+Chọn tab login
+tick : User registration, Forgot password, Remember me, Verify email 
+
+
 
 
 
