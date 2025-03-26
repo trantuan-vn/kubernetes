@@ -332,3 +332,19 @@ curl https://api.deepseek.com/chat/completions \
 https://huggingface.co/deepseek-ai/DeepSeek-R1
 
 https://coinmarketcap.com
+
+aws iam simulate-principal-policy \
+  --policy-source-arn arn:aws:iam::509735772100:user/tuantahp \
+  --action-names "sns:Publish" "sns:CreateTopic" \
+  --region us-east-1
+
+https://www.ros.org
+
+- Cookie (Alternative)
+- Identity Provider Redirector (Alternative)
+- browser with sms forms (Alternative)
+  - Username Password Form (Required) 
+  - Check Device (Conditional Flow)
+    - Condition - User Configured (Required)
+    - SMS Authenticator (Alternative)
+- Device Authenticator (Required)

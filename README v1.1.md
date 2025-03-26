@@ -96,7 +96,7 @@ cd ~/utility/keycloak-2fa-sms-authenticator
 mvn clean package 
 kubectl cp /Users/cunkem/utility/keycloak-2fa-sms-authenticator/target/dasniko.keycloak-2fa-sms-authenticator.jar copy-pod:/mnt/data -n keycloak
 
-helm uninstall keycloak -n keycloak
+helm uninstall keycloak -n keycloak   
 helm install keycloak /Users/cunkem/kubernetes/keycloak --namespace keycloak
 sudo kubectl port-forward svc/keycloak 443:443 -n keycloak --address $(ipconfig getifaddr en0)
 sudo sed -i '' "/auth.smartconsultor.com/c\\
@@ -170,20 +170,55 @@ add mapper
 type name : preferred_username
 chọn  User Attribute : username
 save
-# thiet lap theme
-Chọn Realm Settings từ menu bên trái
-Chọn tab Themes
-Chọn Login theme là device-theme
-save
 # thiet lap authentication
+##cach thiet lap dien thoai test tren sandbox
+- https://aws.amazon.com/console/
+- go sns trong search , chon Amazon Simple Notification Service
+- chon Text messaging
+- add phone trong sandbox
+- verify phone
+##cach lay access key va secret key cho sms trên aws
+- https://aws.amazon.com/console/
+- go iam trong search , chon Manage access to AWS resources
+- chon users
+- chon create user
+- dat ten : sms-service-user
+- set permission= Attach existing policies directly
+- chon AmazonSNSFullAccess
+- kich chon user sms-service-user
+- chon tab Security credentials
+- chon Create access key
+- chon CLI
+- Description tag value=sns
+- download csv
+## tao browser sms trusted-device
 Chọn Authentication từ menu bên trái
-tại tab Flows: duplicate browser dat ten CustomDeviceFlow
-add step : Custom Device Verification
-add step : Conditional OTP Form
-tại man hình flow, ấn ... tại CustomDeviceFlow chọn bind flow, chọn Browser flow
+tại tab Flows: duplicate browser dat ten "browser sms trusted-device"
+xoa Condition - user configured
+xoa OTP Form
+trong subflow : browser sms trusted-device Browser - Conditional OTP 
+    add step : Condition - Device Trusted (setting : Negate output= true)
+    add step : SMS Authentication (AWS sms setting: SenderID=Keycloak (duoi 12 ky tu), AWS Access Key , AWS Secret Key , AWS Region)
+    add step : Register Trusted Device
+tại man hình flow, ấn ... tại "browser sms trusted-device" chọn bind flow, chọn Browser flow
 # thiet lap email
-
-
+## Chuẩn bị tài khoản Gmail
+- https://myaccount.google.com/security
+- bat 2FA
+- kich vao 2-Step Verification
+- chon app password
+- tao app password= keycloak
+- copy mat khau (luu cung aws access key)
+## khai bao email tren keycloak
+- Nhấn Realm Settings > Tab Email
+Host: smtp.gmail.com
+Port: 587 (dùng TLS).
+From Display Name: Tên hiển thị trong email (ví dụ: Keycloak).
+From: Địa chỉ email Gmail của bạn (ví dụ: tuanta2021@gmail.com).
+Enable StartTLS: Bật (check vào ô này, vì Gmail dùng TLS).
+Enable Authentication: Bật (check vào ô này).
+Username: Địa chỉ email Gmail (ví dụ: tuanta2021@gmail.com).
+Nếu dùng 2FA: Nhập App Password đã tạo ở bước chuẩn bị email
 # thiet lap login 
 Chọn Realm Settings từ menu bên trái
 Chọn tab login
