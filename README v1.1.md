@@ -319,8 +319,10 @@ kubectl exec -n ignite ignite-0 -- /opt/ignite/apache-ignite/bin/control.sh --st
 kubectl exec -it -n ignite ignite-0 -- bash
 ./apache-ignite/bin/sqlline.sh --verbose=true -u jdbc:ignite:thin://127.0.0.1:10800/ -n ignite -p ignite 
 
-#16 echo Waiting for microservices to be installed...
+#16 echo Waiting for microservices to be installed... (Gradle 8.12.1, jdk 23, ndk;29.0.13113456)
 cd ./frontend
+rm -rf android 
+flutter create .
 flutter build web
 #copy vào thư mục buid/web tới src/main/resources/webroot (gateway project)
 #vào main.dart.js thay :
