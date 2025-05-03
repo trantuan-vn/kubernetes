@@ -348,3 +348,184 @@ https://www.ros.org
     - Condition - User Configured (Required)
     - SMS Authenticator (Alternative)
 - Device Authenticator (Required)
+
+LAP TRINH FLUTTER
+A. kien truc clean + dartx + equartable: 
+- UI (Button login) gọi Bloc.add(LoginPressed(...))
+- Bloc gọi LoginUseCase.call(LoginParams(...))
+- UseCase gọi AuthRepository.exchangeCodeForToken(code)
+- Repository gọi AuthRemoteDataSource.exchangeCodeForToken(...)
+- RemoteDataSource thực hiện gọi Keycloak API
+- Kết quả trả về qua Either<Failure, UserModel>
+✅ 1 usecase → 1 class → Đúng.
+✅ Nhiều usecase có thể dùng chung 1 Repository (Interface).
+✅ RepositoryImpl có thể dùng chung cho nhiều usecase.
+✅ RemoteDataSource nên theo "chức năng module", không nhất thiết phải chia nhỏ.
+
+B. Khi nào cần equatable?
+Dùng equatable khi...	              Không cần khi...
+Làm với State, Event trong Bloc	    Class chỉ dùng tạm thời
+Dùng làm Params cho UseCase	        Không cần so sánh object
+Viết test (so sánh 2 object)	      -
+
+C. Functional Programming trong Dart :
+Ưu điểm	                                     Mô tả
+✅ Không dùng try-catch tràn lan	            Mã sạch, lỗi được gom về tầng DataSource
+✅ Xử lý lỗi có cấu trúc	                    Không phải phân tích Exception.runtimeType lung tung
+✅ Tầng UI và Bloc gọn gàng	                Chỉ cần .fold(...) hoặc .map(...)
+✅ Dễ test	                                  Không cần try, chỉ kiểm tra Left/Right
+✅ Thống nhất	                              Cả app chỉ xử lý lỗi 1 kiểu duy nhất (Failure)
+
+
+D. Clean Architecture + dartz + mockito: 
+- mock domain (usecase, repo)
+- mock data (RepoImpl, remotedata)
+- ntegration test hoặc mock http response (✅ Test gì?	                📌 Ý nghĩa
+                                            API trả 200	              Có decode JSON đúng không
+                                            API lỗi (401, 500...)	    Có ném ServerException đúng không)
+
+LẬP TRÌNH BACKEND
+1. Kết cấu tổng các microservice
+smartconsultor-backend/
+├── pom.xml                              <- Root parent POM
+├── common/                              <- Tái sử dụng giữa các service
+│   ├── common-core/                     <- Entities, ValueObjects, UseCase interfaces
+│   ├── common-utils/                    <- JWT utils, mappers, exceptions, logging
+│   ├── common-config/                   <- Config loader, Keycloak, Pulsar,...
+│   └── pom.xml
+├── user-service/                        <- Một microservice cụ thể
+│   ├── domain/                          <- Entity + Use Case (pure Java)
+│   ├── infrastructure/                  <- Adapter: db, redis, kafka, etc.
+│   ├── application/                     <- UseCaseImpl, Service logic
+│   ├── interfaces/                      <- Controller, EventBus/WebSocket handler
+│   ├── main/                            <- Main Verticle, config
+│   └── pom.xml
+├── order-service/                       <- Microservice khác
+│   └── ...
+└── notification-service/                <- Microservice khác
+    └── ...
+2. Kết cấu trong của mỗi Microservice
+my-vertx-app/
+├── app/                                # Lớp Application Layer (entry point)
+│   ├── MainVerticle.java               # Entry point của ứng dụng
+│   ├── config/                         # Đọc và parse config (từ env, file, system props...)
+│   │   └── AppConfig.java
+│   └── di/                             # Khởi tạo DI (hoặc manual wiring)
+│       └── Injector.java
+│
+├── adapter/                            # Lớp Adapter Layer (Web / WebSocket / EventBus)
+│   ├── web/
+│   │   ├── route/                      # Định nghĩa các route HTTP
+│   │   │   └── AuthRoute.java
+│   │   └── handler/                    # Handler cho HTTP request
+│   │       └── AuthHandler.java
+│   ├── websocket/
+│   │   └── handler/                    # Handler WebSocket
+│   │       └── ChatSocketHandler.java
+│   └── eventbus/
+│       └── consumer/                   # Consumer cho EventBus
+│           └── UserEventConsumer.java
+│
+├── domain/                             # Lớp Domain Layer (business rules)
+│   ├── model/                          # Entity / Value Object
+│   │   └── User.java
+│   ├── repository/                     # Repository interface
+│   │   └── UserRepository.java
+│   └── usecase/                        # Use case (business logic)
+│       └── AuthenticateUserUseCase.java
+│
+├── infrastructure/                     # Lớp Infra Layer (implementation của service / repository)
+│   ├── persistence/                    # Giao tiếp DB (Postgres, Mongo...)
+│   │   └── UserRepositoryImpl.java
+│   ├── service/                        # External service (Keycloak, Email...)
+│   │   └── KeycloakServiceImpl.java
+│   └── util/                           # Helper, utility
+│       └── JsonUtil.java
+│
+├── docker/                             # Docker files
+│   ├── Dockerfile
+│   └── .dockerignore
+│
+├── skaffold/                           # Skaffold config (k8s CICD)
+│   ├── skaffold.yaml
+│   └── k8s/
+│       └── deployment.yaml
+│
+├── resources/
+│   └── application.yaml                # Cấu hình ứng dụng
+│
+├── test/                               # Unit & Integration tests
+│   └── domain/
+│       └── usecase/
+│           └── AuthenticateUserUseCaseTest.java
+│
+├── pom.xml                             # Maven build config
+└── README.md
+
+4. Thư mục common:
+- common-core/
+  + BaseEntity.java, BaseUseCase.java
+  + Custom Either<L, R> (nếu không dùng Vavr)
+  + Common Result<T> object
+- common-utils/
+  + Exception: AppException, ServerException, BusinessException
+  + JWT utils, Email utils, etc.
+- cmmon-config/
+  + ConfigLoader.java: đọc YAML, JSON, ENV
+  + KeycloakClient.java
+  + PulsarClientProvider.java
+5. Tệp pom.xml cho root project:
+<modules>
+  <module>common/common-core</module>
+  <module>common/common-utils</module>
+  <module>common/common-config</module>
+  <module>user-service</module>
+  <module>order-service</module>
+  <module>notification-service</module>
+</modules>
+
+6. Luồng xử lý 
+
+Client → /auth/login
+  ↓
+MainVerticle → AuthRoute → AuthHandler
+  ↓
+AuthenticateUserUseCase (domain logic)
+  ↓
+UserRepository (interface) → UserRepositoryImpl
+  ↓
+KeycloakServiceImpl (HTTP call)
+  ↓
+Trả User entity hoặc lỗi
+  ↑
+AuthHandler trả JSON về client
+
+
+🧩 DANH SÁCH LĨNH VỰC & AGENT
+
+Lĩnh vực	            AI Agent tiêu biểu	                      Mô tả
+🛠 Product	          FeaturePlannerAI, FeedbackSynthAI	        Phân tích yêu cầu, lập roadmap
+💸 Finance	          CashflowAI, ForecastAI, InvoiceBot	      Dự đoán dòng tiền, lập kế hoạch tài chính
+👥 Human Resource	    TalentScoutAI, EngagementAI	              Tuyển dụng, đánh giá, giữ chân nhân viên
+📣 Marketing	        SEOGeneratorAI, AdOptimizerAI	            Tối ưu nội dung, chiến dịch quảng cáo
+🔧 Engineering	      CodeReviewerAI, DevMentorAI	              Review code, hỗ trợ kiến trúc, CI/CD
+🛠 Operations	        KPITrackerAI, TaskOrchestratorAI	        Tối ưu quy trình, theo dõi hiệu suất
+⚖ Legal&Compliance    ContractCheckerAI, PolicyUpdateAI	        Kiểm hợp đồng, cập nhật chính sách
+🛡 Security	          AccessControlAI, RiskPredictorAI	        Phân quyền, phát hiện rủi ro bảo mật
+📞 Customer&Support	  AutoResponderAI, ChurnAlertAI	            Tự động trả lời, cảnh báo mất khách
+🤝 Business Dev	      PartnerScanAI, DealMakerAI	              Tìm kiếm đối tác, đề xuất thương vụ
+🔬 R&D	              TechRadarAI, PrototypeAdvisorAI	          Phân tích xu hướng, tư vấn sản phẩm thử nghiệm
+
+🧠 MCP CORE: Trung tâm điều phối
+Message Bus/Event Router: (CrewAI / LangGraph / Apache Pulsar)
+Shared Memory Store: Vector DB (Chroma, Weaviate) để lưu context, memory của các agent
+Orchestration Layer: Quản lý flow đa agent, retry/fallback, circuit breaker
+Identity & Security Layer: Gắn vai trò, phòng ban, quyền truy cập cho mỗi agent
+
+🌀FLOW MẪU: Feature từ khách hàng → Phát triển
+FeedbackSynthAI (Product) phân tích feedback → xác định tính năng.
+ForecastAI (Finance) ước tính chi phí → trả về quyết định khả thi.
+DevMentorAI + CodeReviewerAI (Engineering) bắt đầu build.
+AdOptimizerAI (Marketing) chuẩn bị chiến dịch giới thiệu tính năng.
+CustomerSuccessAI kiểm tra phản hồi sau khi triển khai.
+Toàn bộ log/insight lưu tại shared memory, dùng cho huấn luyện lại mô hình.

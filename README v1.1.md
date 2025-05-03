@@ -320,6 +320,7 @@ kubectl exec -it -n ignite ignite-0 -- bash
 ./apache-ignite/bin/sqlline.sh --verbose=true -u jdbc:ignite:thin://127.0.0.1:10800/ -n ignite -p ignite 
 
 #16 echo Waiting for microservices to be installed... (Gradle 8.12.1, jdk 23, ndk;29.0.13113456)
+flutter run -d chrome --web-port=59818
 cd ./frontend
 rm -rf android 
 flutter create .
