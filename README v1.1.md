@@ -478,7 +478,7 @@ helm pull bitnami/haproxy --version 2.2.21
 helm install haproxy ./haproxy --namespace haproxy
 
 #18 GeoLite2-City
-wget "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=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&account_id=1172126&suffix=tar.gz" -O GeoLite2-City.tar.gz
+wget "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=&account_id=1172126&suffix=tar.gz" -O GeoLite2-City.tar.gz
 tar -xzf GeoLite2-City.tar.gz
 
 
