@@ -246,6 +246,75 @@ helm pull apache/pulsar --version 3.5.0
 helm install  pulsar ./pulsar --namespace pulsar
 helm upgrade pulsar ./pulsar --namespace pulsar
 
+| Thành phần     | Tải vào từ Producer  | Tải ra cho Consumer | Tải Disk   | Tải RAM  | Tải Network |
+| -------------- | -------------------  | ------------------- | ---------  | -------  | ----------- |
+| **Broker**     | ✅ cao               | ✅ cao               | ❌ nhỏ     | ✅ trung | ✅ cao       |
+| **BookKeeper** | ✅ rất cao           | ✅ cao               | ✅ rất cao | ✅ trung | ✅ trung     |
+| **ZooKeeper**  | ❌ rất nhỏ           | ❌ rất nhỏ           | ❌ nhỏ     | ❌ nhỏ   | ❌ nhỏ       |
+
+pulsar-admin topics set-retention gateway-requests-{0..999} --time 24h --size 2G
+pulsar-admin topics set-retention gateway-responses-{0..999} --time 24h --size 2G
+pulsar-admin topics set-retention dead-message-topic-{0..999} --time 24h --size 2G
+
+tenant/project-name/
+├── order/
+├── wallet/
+├── event/
+├── audit/
+├── error/
+├── fraud/
+
+
+persistent://exchange/order/input/group-<groupId>
+persistent://exchange/order/priority/group-<groupId>
+persistent://exchange/order/dead/group-<groupId>
+persistent://exchange/result/symbol-<symbolId>
+persistent://wallet/event/user-group-<groupId>
+persistent://wallet/dead/user-group-<groupId>
+persistent://audit/log/group-<groupId>
+persistent://audit/event/symbol-<symbolId>
+persistent://exchange/order/dead/group-<groupId>
+persistent://wallet/dead/user-group-<groupId>
+
+VD:
+persistent://exchange/order/input/group-042
+persistent://exchange/result/symbol-BTC-USDT
+persistent://wallet/event/user-group-357
+persistent://audit/log/group-042
+
+
+Topic	                      Partition count	        Mục tiêu
+order/input/group-*	        10–20 partitions	      Tăng parallelism
+result/symbol-*	            3–5 partitions	        Tùy vào volume
+wallet/event/user-group-*	  5–10 partitions	        Dễ scale theo region
+audit/*	                    thường không cần	      Mostly append-only
+
+Mỗi partition nên phục vụ tối đa khoảng 100–200 user/symbol active.
+Cấu hình: retention 7 ngày, TTL 1 tuần.
+Dùng Flink hoặc batch processor để re-process hoặc gửi alert.
+Đảm bảo schema Protobuf rõ ràng:
+  OrderMessage
+  MatchResult
+  WalletEvent
+  AuditEvent
+
+Ví dụ cho hệ thống của bạn (giả sử 1 triệu user, 2000 cặp symbol)
+Tổng thể số topic:
+Loại	                  Số lượng ước tính
+order.input.group-*	    1000 group
+order.priority.group-*	1000 group (nếu cần ưu tiên)
+order.dead.group-*	    1000 group
+result.symbol-*	        2000 symbol
+wallet.event.group-*	  1000 group
+wallet.dead.group-*	    1000 group
+audit.log.group-*	      1000 group
+
+Tổng ~7000–8000 topic, hoàn toàn ổn với Pulsar nếu bạn:
+Sử dụng tiered storage (nếu cần log dài hạn).
+Bật managedLedgerCacheEvictionWatermark hợp lý.
+Dùng BookKeeper SSD disk (hoặc tiering S3).
+
+
 #11 redis
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
@@ -319,7 +388,101 @@ kubectl exec -n ignite ignite-0 -- /opt/ignite/apache-ignite/bin/control.sh --st
 kubectl exec -it -n ignite ignite-0 -- bash
 ./apache-ignite/bin/sqlline.sh --verbose=true -u jdbc:ignite:thin://127.0.0.1:10800/ -n ignite -p ignite 
 
-#16 echo Waiting for microservices to be installed... (Gradle 8.12.1, jdk 23, ndk;29.0.13113456)
+#16 cilium and tunning linux stack
+helm repo add cilium https://helm.cilium.io/
+helm repo update
+helm search repo cilium/cilium
+helm install cilium cilium/cilium --version 1.17.3 \
+  --namespace kube-system \
+  --set kubeProxyReplacement=true \
+  --set k8sServiceHost=$(minikube ip) \
+  --set k8sServicePort=8443 \
+  --set cni.exclusive=true
+  --set bpf.masquerade=true \
+  --set bpf.conntrack.gcInterval=30s \
+  --set bpf.conntrack.maxStateSize=524288  
+
+Chạy trên node server
+1. ulimit -n
+2. # /etc/systemd/system/containerd.service.d/override.conf
+[Service]
+LimitNOFILE=200000
+3.  SYSCTL_CONF="/etc/sysctl.conf"
+    TMP_CONF="/tmp/sysctl_custom.conf"
+    cat <<EOF > "$TMP_CONF"
+    # File/Connection limits
+    fs.file-max = 2097152
+    fs.nr_open = 2097152
+    vm.max_map_count = 262144
+    # TCP keepalive (duy trì kết nối sống)
+    net.ipv4.tcp_keepalive_time = 30
+    net.ipv4.tcp_keepalive_intvl = 10
+    net.ipv4.tcp_keepalive_probes = 3
+    # Port range mở rộng để nhiều kết nối outbound
+    net.ipv4.ip_local_port_range = 10000 65535
+    # TIME_WAIT reuse: tránh tốn slot
+    net.ipv4.tcp_tw_reuse = 1
+    net.ipv4.tcp_fin_timeout = 15
+    # Backlog cho kết nối vào
+    net.core.somaxconn = 65535
+    net.ipv4.tcp_max_syn_backlog = 8192
+    net.core.netdev_max_backlog = 65535
+    # Syncookie (giảm SYN flood)
+    net.ipv4.tcp_syncookies = 1
+    # Tăng buffer TCP
+    net.core.rmem_max = 16777216
+    net.core.wmem_max = 16777216
+    net.ipv4.tcp_rmem = 4096 87380 16777216
+    net.ipv4.tcp_wmem = 4096 65536 16777216
+    # Bypass reverse path filtering (tuỳ trường hợp)
+    net.ipv4.conf.all.rp_filter = 0
+    net.ipv4.conf.default.rp_filter = 0
+    # Tăng connection tracking nếu có iptables/nftables
+    net.netfilter.nf_conntrack_max = 2097152
+    EOF
+    for KEY in $(cut -d '=' -f 1 "$TMP_CONF" | xargs); do
+      sed -i "/^$KEY\s*=/d" "$SYSCTL_CONF"
+    done
+    cat "$TMP_CONF" >> "$SYSCTL_CONF"
+    sysctl -p "$SYSCTL_CONF"
+    sudo systemctl daemon-reexec
+    sudo systemctl daemon-reload
+    sudo systemctl restart containerd    
+  
+#16 Tổ chức tunning hệ thống theo ai agent
+ws-pulsar-aiops-platform/
+├── helm/
+│   ├── gateway/               # Chart cho WebSocket Gateway (Vert.x)
+│   ├── pulsar/                # Apache Pulsar chart (bitnami hoặc streamnative)
+│   ├── observability/         # Prometheus + Grafana
+│   ├── kedascaler/            # KEDA setup + ScaledObjects
+│   ├── robusta/               # Robusta automation
+│   ├── keptn/                 # Keptn remediation workflow
+│   └── opni/                  # Opni anomaly detection
+├── langchain-agent/
+│   ├── agent.py               # AI agent script
+│   ├── tools/                 # Custom shell tools (scale pulsar, patch limit)
+├── manifests/
+│   ├── kustomize/             # Base + overlays for ArgoCD / FluxCD
+├── dashboards/
+│   ├── grafana/               # WS + Pulsar dashboards JSON
+├── scripts/
+│   └── bootstrap.sh           # Cài đặt nhanh toàn bộ stack
+├── README.md
+
+#17 haproxy
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm search repo bitnami/haproxy
+helm pull bitnami/haproxy --version 2.2.21 
+helm install haproxy ./haproxy --namespace haproxy
+
+#18 GeoLite2-City
+wget "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=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&account_id=1172126&suffix=tar.gz" -O GeoLite2-City.tar.gz
+tar -xzf GeoLite2-City.tar.gz
+
+
+#100 echo Waiting for microservices to be installed... (Gradle 8.12.1, jdk 23, ndk;29.0.13113456)
 flutter run -d chrome --web-port=59818
 cd ./frontend
 rm -rf android 
