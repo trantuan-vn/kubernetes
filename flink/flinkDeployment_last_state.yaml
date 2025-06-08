@@ -1,0 +1,29 @@
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: flink-cluster
+spec:
+  image: flink:1.20
+  flinkVersion: v1_20
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "2"
+    state.backend: rocksdb
+    state.savepoints.dir: file:///flink/savepoints
+    state.checkpoints.dir: file:///flink/checkpoints
+    execution.checkpointing.interval: "30s"
+    high-availability: kubernetes
+    high-availability.storageDir: file:///flink/ha
+    high-availability.cluster-id: flink-cluster-ha
+  serviceAccount: flink
+  jobManager:
+    resource:
+      memory: "2048m"
+      cpu: 1
+  taskManager:
+    resource:
+      memory: "2048m"
+      cpu: 1
+  job:
+    jarURI: local:///opt/flink/examples/streaming/StateMachineExample.jar
+    parallelism: 2
+    upgradeMode: last-state

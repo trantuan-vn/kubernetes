@@ -16,6 +16,7 @@ kubectl create namespace superset
 kubectl create namespace bigdata
 kubectl create namespace zookeeper
 kubectl create namespace ignite
+kubectl create namespace flink
 
 #4. tạo các serviceaccount
 kubectl create serviceaccount cert-manager-controller -n cert-manager
@@ -83,10 +84,18 @@ base64_data=$(kubectl get secret smartconsultor-certificate-tls -n istio-system 
 echo $base64_data | base64 --decode > ca.crt (dua file nay vao trinh duyet vùng trust certificates để test)
 kubectl apply -f /Users/cunkem/kubernetes/keycloak/other/jar_pvc.yaml
 kubectl apply -f /Users/cunkem/kubernetes/keycloak/other/copy_pod.yaml
+
 cd ~/utility/device-management 
-mvn clean package (device-management)
+mvn clean package
 kubectl cp /Users/cunkem/utility/device-management/target/device-management-1.0-SNAPSHOT.jar copy-pod:/mnt/data -n keycloak
 kubectl cp /Users/cunkem/kubernetes/keycloak/other/device-theme copy-pod:/mnt/data -n keycloak
+
+#https://dash.cloudflare.com/e76b7bb989f93985402e1a61e6cd5ff3/turnstile
+cd ~/utility/turnstile-authenticator 
+mvn clean package
+kubectl cp /Users/cunkem/utility/turnstile-authenticator/target/turnstile-authenticator-1.0-SNAPSHOT.jar copy-pod:/mnt/data -n keycloak
+kubectl cp /Users/cunkem/kubernetes/keycloak/other/turnstile-theme copy-pod:/mnt/data -n keycloak
+
 
 cd ~/utility/keycloak-spi-trusted-device/spi 
 mvn clean package (spi-trusted-device)
@@ -127,8 +136,11 @@ Bạn sẽ thấy giá trị Secret. Đây là giá trị secret.
 # Thiết lập url trên keycloak
 Trong giao diện client , chọn client để kết nối (test)
 Tại màn hinh setting: set 
-- Valid redirect URIs bằng https://smartconsultor.com/callback (trùng với callback_url trong docker.json)
-- Web origins bằng https://smartconsultor.com
+- Valid redirect URIs bằng 
+  https://smartconsultor.com/callback (trùng với callback_url trong docker.json)
+  com.example.smartconsultor://callback
+- Web origins bằng 
+  https://smartconsultor.com
 
 # Thiết lập preferred_username
 Trong giao diện client , chọn client để kết nối (test)
@@ -480,6 +492,13 @@ helm install haproxy ./haproxy --namespace haproxy
 #18 GeoLite2-City
 wget "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=&account_id=1172126&suffix=tar.gz" -O GeoLite2-City.tar.gz
 tar -xzf GeoLite2-City.tar.gz
+
+#19 flink
+helm repo add flink-operator-repo https://downloads.apache.org/flink/flink-kubernetes-operator-1.12.0/
+helm install flink-kubernetes-operator flink-operator-repo/flink-kubernetes-operator --namespace flink
+kubectl create -f flinkdeployment.yaml
+#kubectl get flinkdeployment -n flink; kubectl delete flinkdeployment/flink-cluster -n flink
+kubectl port-forward svc/flink-cluster-rest 8081 -n flink
 
 
 #100 echo Waiting for microservices to be installed... (Gradle 8.12.1, jdk 23, ndk;29.0.13113456)

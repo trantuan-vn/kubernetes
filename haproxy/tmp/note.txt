@@ -1,0 +1,92 @@
+                 ┌────────────┐
+                 │ LoadAgent  │  ◀── pod bạn sẽ chạy script Python
+                 └────┬───────┘
+                      │
+                      │
+          ┌───────────▼─────────────┐
+          │ HAProxy pod             │
+          │ stats socket enabled    │
+          │ /var/run/haproxy.sock   │
+          └───────────▲─────────────┘
+                      │
+                      │
+        ┌─────────────┼─────────────┐
+        │             │             │
+┌───────▼──────┐┌─────▼──────┐┌─────▼──────┐
+│ Gateway pod1 ││ Gateway2   ││ Gateway3   │
+│ active_users ││ active_users││ active_users│
+└──────────────┘└────────────┘└────────────┘
+
+
+┌──────────────────────────┐
+│      LoadAgent (Python)  │
+│                          │
+│  Gửi lệnh:               │
+│  "set weight ..."        │
+└────────────┬─────────────┘
+             │ (UNIX socket)
+             ▼
+┌──────────────────────────┐
+│     HAProxy (có stats)   │
+│                          │
+│  /var/run/haproxy.sock   │  ◀── "cổng điều khiển" nội bộ
+└──────────────────────────┘
+
+
+1. File Descriptor Limits:
+Đảm bảo container có ulimit -n ít nhất 2 triệu:
+ulimit -n 2000000
+Trong Kubernetes, thêm vào container spec:
+securityContext:
+  capabilities:
+    add: ["SYS_RESOURCE"]
+2. Tài nguyên Kubernetes:
+Cập nhật manifest của pod để đảm bảo đủ CPU và RAM:
+resources:
+  limits:
+    cpu: "4"
+    memory: "4Gi"
+  requests:
+    cpu: "2"
+    memory: "2Gi"
+3. Kiểm tra file chứng chỉ và lỗi:
+Đảm bảo các file /etc/tls/* và /etc/haproxy/errors/*.http được mount đúng từ Kubernetes Secret hoặc ConfigMap.
+Kiểm tra:
+kubectl exec -it <haproxy-pod> -- ls -l /etc/tls /etc/haproxy/errors
+4. Kiểm tra DNS:
+Xác minh dịch vụ gateway-headless.microservices.svc.cluster.local resolve đúng:
+kubectl exec -it <haproxy-pod> -- nslookup gateway-headless.microservices.svc.cluster.local 10.96.0.10
+5. Kiểm tra Health Check:
+Xác minh endpoint /health trả về mã 200 OK:
+kubectl exec -it <backend-pod> -- curl -I http://localhost:8080/health
+6. Kiểm tra Stats:
+Truy cập http://<haproxy-ip>:8404/stats với tài khoản admin:securepassword để xem trạng thái.
+7. Thêm gợi ý triển khai
+7.1. Tự động scale HAProxy: Sử dụng HorizontalPodAutoscaler (HPA) để tự động mở rộng số pod HAProxy dựa trên CPU/memory:
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: haproxy-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: haproxy
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+7.2. Tích hợp Prometheus: Thêm exporter để giám sát HAProxy qua Prometheus:
+listen stats
+    bind *:8404
+    stats enable
+    stats uri /stats
+    stats realm Haproxy\ Statistics
+    stats auth admin:securepassword
+    http-request use-service prometheus-exporter if { path /metrics }
+Cân nhắc Lua script: Nếu cần logic phức tạp (ví dụ: rate limiting, custom routing), bạn có thể tích hợp Lua script vào HAProxy.

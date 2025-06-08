@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: haproxy-pod
+spec:
+  containers:
+    - name: haproxy
+      image: haproxy:2.8
+      volumeMounts:
+        - name: sock-volume
+          mountPath: /var/run
+    - name: loadagent
+      image: python:3.11
+      command: ["python", "/scripts/loadagent.py"]
+      volumeMounts:
+        - name: sock-volume
+          mountPath: /var/run
+        - name: script-volume
+          mountPath: /scripts
+  volumes:
+    - name: sock-volume
+      emptyDir: {}  # socket file sẽ được chia sẻ giữa 2 container
+    - name: script-volume
+      configMap:
+        name: loadagent-script  # chứa file loadagent.py

@@ -302,8 +302,8 @@ Port forwarding service/keycloak in namespace default, remote port 80 -> http://
 curl -X POST "https://auth.smartconsultor.com/realms/master/protocol/openid-connect/token" \
      --cacert /Users/cunkem/backend/gateway/src/main/resources/ca.crt \
      -H "Content-Type: application/x-www-form-urlencoded" \
-     -d "client_id=test" \
-     -d "client_secret=eeC9YoPbjQoS8xVifHnQaIAxXCQZqyH9" \
+     -d "client_id=smartconsultor" \
+     -d "client_secret=whdFoyHiGV45aVB9vAUxjQskqGpJY98M" \
      -d "grant_type=password" \
      -d "username=admin" \
      -d "password=admin123"
@@ -529,3 +529,202 @@ DevMentorAI + CodeReviewerAI (Engineering) bắt đầu build.
 AdOptimizerAI (Marketing) chuẩn bị chiến dịch giới thiệu tính năng.
 CustomerSuccessAI kiểm tra phản hồi sau khi triển khai.
 Toàn bộ log/insight lưu tại shared memory, dùng cho huấn luyện lại mô hình.
+
+
+#0 phân vùng
+user-123
+pre-domain 
+pre-pod (thuộc domain)
+pre-topic (thuôc pre-pod)
+cur-domain 
+cur-pod
+cur-topic
+
+# 1. Tập hợp các thiết bị
+user:user-123:devices => [web-uuid-1, ios-uuid-2, android-uuid-3]
+
+# 2. Với mỗi device, là các kết nối:
+ws:user-123:web-uuid-1 => {
+  0: conn-web-uuid-1-0,
+  1: conn-web-uuid-1-1,
+  ...
+}
+
+ws:user-123:ios-uuid-2 => {
+  0: conn-ios-uuid-2-0,
+  1: conn-ios-uuid-2-1,
+}
+# 3. với mỗi connectionIndex có 1 seqid
+seq:user-123:web-uuid-1:0 => 1503
+seq:user-123:web-uuid-1:1 => 1543
+seq:user-123:ios-uuid-2:0 => 998
+
+#4. 
+ack:user-123:web-uuid-1:0 => true
+ack:user-123:web-uuid-1:1 => false
+conn:user-123:web-uuid-1:0 => <timestamp>
+
+#5.
+client gửi:
+{
+  deviceId: "web-uuid-1",
+  lastKnownConnectionIds: [
+    { index: 0, seqId: 1543 },
+    { index: 1, seqId: 1503 }
+  ]
+}
+
+
+FLINK: 
+
+| **Loại state**              | **Mô tả**                                             | **Loại**                    |
+| --------------------------- | ----------------------------------------------------- | --------------------------- |
+| `ValueState<T>`             | Lưu một giá trị duy nhất cho mỗi key                  | Keyed                       |
+| `ListState<T>`              | Lưu một danh sách các phần tử                         | Keyed / Operator¹           |
+| `ReducingState<T>`          | Tổng hợp dữ liệu liên tục qua hàm `reduce()`          | Keyed                       |
+| `AggregatingState<IN, OUT>` | Tổng hợp qua `aggregate()` trả về kết quả mới         | Keyed                       |
+| `MapState<K, V>`            | Lưu trữ map key → value riêng cho từng key            | Keyed                       |
+| **Broadcast State**         | Lưu trạng thái chung được broadcast đến mọi subtask   | Operator (Broadcast stream) |
+| **Operator State**          | Trạng thái gắn với toàn operator, không chia theo key | Operator                    |
+
+
+| Class                    | State kiểu gì     | Có cần `keyBy()`? | Dùng để làm gì                              |
+| ------------------------ | ----------------- | ----------------- | ------------------------------------------- |
+| `KeyedProcessFunction`   | Keyed State       | ✅ Có              | Xử lý theo từng key riêng biệt              |
+| `KeyedCoProcessFunction` | Keyed State       | ✅ Có              | Join/merge 2 stream theo key                |
+| `CheckpointedFunction`   | Operator State    | ❌ Không cần       | Xử lý source/custom logic với state         |
+| `RichSourceFunction`     | Không có/tùy chọn | ❌ Không cần       | Source tùy chỉnh, mở rộng thông tin context |
+
+KeyedProcessFunction.java: 
+
+stream
+  .keyBy(event -> event.userId)
+  .process(new KeyedProcessFunction<String, Event, String>() {
+
+    private ValueState<Integer> count;
+
+    @Override
+    public void open(Configuration parameters) {
+      count = getRuntimeContext().getState(
+        new ValueStateDescriptor<>("count", Integer.class)
+      );
+    }
+
+    @Override
+    public void processElement(Event value, Context ctx, Collector<String> out) throws Exception {
+      Integer current = count.value();
+      if (current == null) current = 0;
+      count.update(current + 1);
+      out.collect("User " + value.userId + " has " + (current + 1) + " events");
+    }
+  });
+
+🧠 Key point:
+State ở đây là ValueState, và được lưu riêng theo từng userId (vì có keyBy()).
+
+KeyedCoProcessFunction.java
+
+stream1
+  .keyBy(x -> x.userId)
+  .connect(stream2.keyBy(y -> y.userId))
+  .process(new KeyedCoProcessFunction<String, EventA, EventB, String>() {
+
+    private ValueState<EventA> stateA;
+
+    @Override
+    public void open(Configuration parameters) {
+      stateA = getRuntimeContext().getState(
+        new ValueStateDescriptor<>("a", EventA.class)
+      );
+    }
+
+    @Override
+    public void processElement1(EventA a, Context ctx, Collector<String> out) throws Exception {
+      stateA.update(a);
+    }
+
+    @Override
+    public void processElement2(EventB b, Context ctx, Collector<String> out) throws Exception {
+      EventA a = stateA.value();
+      if (a != null) {
+        out.collect("Join: " + a + " and " + b);
+      }
+    }
+  });
+
+🧠 Key point:
+Kết hợp 2 stream đã keyBy(userId).
+State vẫn là Keyed State, riêng cho mỗi userId.  
+
+CheckpointedFunction.java
+
+public class MyStatefulSource implements SourceFunction<String>, CheckpointedFunction {
+
+  private volatile boolean isRunning = true;
+  private ListState<String> state;
+  private List<String> buffer = new ArrayList<>();
+
+  @Override
+  public void run(SourceContext<String> ctx) throws Exception {
+    while (isRunning) {
+      // simulate data
+      String value = UUID.randomUUID().toString();
+      buffer.add(value);
+      synchronized (ctx.getCheckpointLock()) {
+        ctx.collect(value);
+      }
+      Thread.sleep(1000);
+    }
+  }
+
+  @Override
+  public void snapshotState(FunctionSnapshotContext context) throws Exception {
+    state.clear();
+    for (String item : buffer) {
+      state.add(item);
+    }
+  }
+
+  @Override
+  public void initializeState(FunctionInitializationContext context) throws Exception {
+    state = context.getOperatorStateStore().getListState(
+      new ListStateDescriptor<>("buffer", String.class)
+    );
+    for (String item : state.get()) {
+      buffer.add(item);
+    }
+  }
+
+  @Override
+  public void cancel() {
+    isRunning = false;
+  }
+}
+
+🧠 Key point:
+Không có keyBy → dùng Operator State.
+Dùng để checkpoint nội dung buffer khi làm source tùy chỉnh.
+
+
+RichSourceFunction.java
+
+public class MyRichSource extends RichSourceFunction<String> {
+
+  @Override
+  public void open(Configuration parameters) {
+    System.out.println("Task index: " + getRuntimeContext().getIndexOfThisSubtask());
+  }
+
+  @Override
+  public void run(SourceContext<String> ctx) {
+    ctx.collect("Hello from subtask");
+  }
+
+  @Override
+  public void cancel() {
+  }
+}
+
+🧠 Key point:
+RichSourceFunction cho phép bạn access context như task index, metrics, state, config.
+Kết hợp tốt với CheckpointedFunction nếu bạn cần stateful source.

@@ -1,0 +1,6 @@
+router.get("/metrics/active_users").handler(ctx -> {
+  int activeUsers = getActiveUserCount(); // Lấy từ memory hoặc metric thực tế
+  ctx.response()
+     .putHeader("content-type", "text/plain")
+     .end(String.valueOf(activeUsers));
+});

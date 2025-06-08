@@ -324,11 +324,11 @@ spec:
         {{- include "common.tplvalues.render" ( dict "value" .Values.sidecars "context" $) | nindent 8 }}
         {{- end }}
             - name: jar-pvc-volume
-              mountPath: /opt/bitnami/keycloak/providers/device-management-1.0-SNAPSHOT.jar
-              subPath: device-management-1.0-SNAPSHOT.jar  
+              mountPath: /opt/bitnami/keycloak/providers/turnstile-authenticator-1.0-SNAPSHOT.jar
+              subPath: turnstile-authenticator-1.0-SNAPSHOT.jar  
             - name: jar-pvc-volume
-              mountPath: /opt/bitnami/keycloak/themes/device-theme
-              subPath: device-theme    
+              mountPath: /opt/bitnami/keycloak/themes/turnstile-theme
+              subPath: turnstile-theme    
             - name: jar-pvc-volume
               mountPath: /opt/bitnami/keycloak/providers/keycloak-spi-trusted-device-1.0-SNAPSHOT.jar
               subPath: keycloak-spi-trusted-device-1.0-SNAPSHOT.jar  
